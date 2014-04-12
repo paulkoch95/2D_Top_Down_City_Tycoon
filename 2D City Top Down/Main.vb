@@ -154,7 +154,7 @@ Public Class Main
             Next
         Next
         ' e.Graphics.DrawRectangles(Pens.Blue, traffic.cars.ToArray)
-        UI.draw(e.Graphics, New Point(10, 640), selectedIndex)
+        UI.draw(e.Graphics, New Point(10, 640), selectedIndex, tileSize)
     End Sub
 
     Private Sub GameLoop_Tick(sender As Object, e As EventArgs) Handles GameLoop.Tick
@@ -218,6 +218,11 @@ Public Class Main
     End Sub
     Public Sub MouseClicking(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseClick
         'readimage()
+        If e.Button = Windows.Forms.MouseButtons.Left Then
+            BuildBlock(e.X, e.Y)
+        ElseIf e.Button = Windows.Forms.MouseButtons.Right Then
+            RemoveBlock(e.X, e.Y)
+        End If
         'SetBrick(e.X, e.Y, CByte(Blocks.IntersectionUp))
         'Select Case ListBox1.SelectedIndex
         '    Case 0
@@ -230,7 +235,7 @@ Public Class Main
         'SetBrick(e.X, e.Y, CByte(Blocks.RailHorizontal))
         'Me.Text = GetBrick(e.X, e.Y).ToString
         Me.Invalidate()
-        BuildBlock(e.X, e.Y)
+
 
     End Sub
     Public Sub MouseWheelMoving(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseWheel
@@ -314,10 +319,22 @@ Public Class Main
             Case 1
                 map(xx, yy) = CByte(Blocks.RailHorizontal)
             Case 2
-                map(xx, yy) = CByte(Blocks.RailVertical)
-        End Select
 
+        End Select
         CheckStreets(xx, yy)
+
+
+
+    End Sub
+    Public Sub RemoveBlock(ByVal x As Integer, ByVal y As Integer)
+
+        Dim xx As Integer = Convert.ToInt16(Math.Floor((x + (xOffset * tileSize)) / tileSize))
+        Dim yy As Integer = Convert.ToInt16(Math.Floor((y + (yOffset * tileSize)) / tileSize))
+        If xx < 1 Or yy < 1 Or yy > 498 Or xx > 498 Then
+            Exit Sub
+        End If
+        map(xx, yy) = CByte(Blocks.Grass)
+
 
 
     End Sub
