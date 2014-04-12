@@ -1,6 +1,6 @@
 ﻿Option Strict On
 
-Public Class Form1
+Public Class Main
     Public widthX, heightY As Integer
     Public xOffset, yOffset As Integer
     Public traffic As New Traffic
@@ -48,7 +48,7 @@ Public Class Form1
     End Sub
 
     Public Sub render(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
-        
+
         For x As Integer = xOffset To xOffset + widthX - 1
             For y As Integer = yOffset To yOffset + heightY - 1
                 If map(x, y) = Blocks.Red Then

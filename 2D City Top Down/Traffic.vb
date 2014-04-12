@@ -4,14 +4,14 @@
     Public carspeeds As New List(Of Point)
     Public Sub TrafficFlow()
         For i As Integer = 0 To cars.Count - 1
-            Select Case Form1.GetBrick(cars(i).X, cars(i).Y)
-                Case Form1.Blocks.StreetHorizontal
+            Select Case Main.GetBrick(cars(i).X, cars(i).Y)
+                Case Main.Blocks.StreetHorizontal
                     Speed(i, 1, 0)
-                Case Form1.Blocks.Grass
+                Case Main.Blocks.Grass
                     Speed(i, 0, 0)
-                Case Form1.Blocks.StreetVertical
+                Case Main.Blocks.StreetVertical
                     Speed(i, 0, 1)
-                Case Form1.Blocks.StreetDownLeft
+                Case Main.Blocks.StreetDownLeft
                     Speed(i, 0, 0)
             End Select
         Next
