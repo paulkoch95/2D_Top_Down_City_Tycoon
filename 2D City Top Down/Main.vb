@@ -35,6 +35,7 @@ Public Class Main
         Grass = 15
 
         RailHorizontal = 16
+        RailVertical = 17
     End Enum
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -140,6 +141,12 @@ Public Class Main
                 If map(x, y) = Blocks.RailHorizontal Then
                     With e.Graphics
                         .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(0, 2 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+
+                    End With
+                End If
+                If map(x, y) = Blocks.RailVertical Then
+                    With e.Graphics
+                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(1 * tileSize, 2 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
 
                     End With
                 End If
@@ -307,7 +314,7 @@ Public Class Main
             Case 1
                 map(xx, yy) = CByte(Blocks.RailHorizontal)
             Case 2
-                map(xx, yy) = 0
+                map(xx, yy) = CByte(Blocks.RailVertical)
         End Select
 
         CheckStreets(xx, yy)
@@ -356,6 +363,15 @@ Public Class Main
 
         If map(xx - 1, yy) = Blocks.StreetHorizontal And map(xx + 1, yy) = Blocks.StreetHorizontal And map(xx, yy - 1) = Blocks.StreetVertical And map(xx, yy + 1) = Blocks.StreetVertical Then
             map(xx, yy) = CByte(Blocks.Intersection)
+        End If
+
+        If map(xx, yy - 1) = Blocks.RailHorizontal Or map(xx, yy - 1) = Blocks.RailVertical Then
+            map(xx, yy - 1) = CByte(Blocks.RailVertical)
+            map(xx, yy) = CByte(Blocks.RailVertical)
+        End If
+        If map(xx, yy + 1) = Blocks.RailHorizontal Or map(xx, yy + 1) = Blocks.RailVertical Then
+            map(xx, yy + 1) = CByte(Blocks.RailVertical)
+            map(xx, yy) = CByte(Blocks.RailVertical)
         End If
     End Sub
 End Class
