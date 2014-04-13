@@ -14,6 +14,8 @@ Public Class Main
     Public UI As New IngameUI
     Public selectedIndex As Integer
 
+    Public mousePos As Point
+
     Public Enum Blocks
         Red = 0
         Blue = 1
@@ -154,12 +156,23 @@ Public Class Main
             Next
         Next
         ' e.Graphics.DrawRectangles(Pens.Blue, traffic.cars.ToArray)
+
+        With e.Graphics
+            Select Case GetBrickRaw(mousePos.X, mousePos.Y)
+                Case 15
+                    .FillRectangle(New SolidBrush(Color.FromArgb(70, 0, 255, 0)), New Rectangle(mousePos, New Size(32, 32)))
+                Case Is <> 15
+                    .FillRectangle(New SolidBrush(Color.FromArgb(70, 255, 0, 0)), New Rectangle(mousePos, New Size(32, 32)))
+            End Select
+
+        End With
         UI.draw(e.Graphics, New Point(10, 640), selectedIndex, tileSize)
+
     End Sub
 
     Private Sub GameLoop_Tick(sender As Object, e As EventArgs) Handles GameLoop.Tick
         'evaluateCars()
-        'Me.Invalidate()
+        Me.Invalidate()
         'traffic.TrafficFlow()
     End Sub
 
@@ -199,6 +212,9 @@ Public Class Main
     End Sub
     Public Function GetBrick(ByVal x As Integer, ByVal y As Integer) As Byte
         Return map(Convert.ToInt16(Math.Floor((x + (xOffset * tileSize)) / tileSize)), Convert.ToInt16(Math.Floor((y + (yOffset * tileSize)) / tileSize)))
+    End Function
+    Public Function GetBrickRaw(ByVal x As Integer, ByVal y As Integer) As Byte
+        Return map(Convert.ToInt32(x / tileSize), Convert.ToInt32(y / tileSize))
     End Function
     Private Sub SelectIndex(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles MyBase.MouseWheel
         If e.Delta > 0 Then
@@ -254,7 +270,10 @@ Public Class Main
         '    Case Is > Me.Width
         '        xOffset += 1
         'End Select
+        mousePos = New Point(Convert.ToInt32(e.X / tileSize) * tileSize, Convert.ToInt32(e.Y / tileSize) * tileSize)
+        Me.Invalidate(New Rectangle(e.X - 64, e.Y - 64, 128, 128))
 
+        Me.Text = Convert.ToString(GetBrick(mousePos.X, mousePos.Y))
     End Sub
     Public Sub setup()
         For i As Integer = 0 To map.GetUpperBound(0)
@@ -326,6 +345,7 @@ Public Class Main
 
 
     End Sub
+
     Public Sub RemoveBlock(ByVal x As Integer, ByVal y As Integer)
 
         Dim xx As Integer = Convert.ToInt16(Math.Floor((x + (xOffset * tileSize)) / tileSize))
