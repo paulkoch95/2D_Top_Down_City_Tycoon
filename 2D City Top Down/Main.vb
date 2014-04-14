@@ -15,6 +15,7 @@ Public Class Main
     Public selectedIndex As Integer
 
     Public mousePos As Point
+    Public economy As Economy = New Economy
 
     Public Enum Blocks
         Red = 0
@@ -51,7 +52,6 @@ Public Class Main
     End Sub
 
     Public Sub render(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
-
         For x As Integer = xOffset To xOffset + widthX - 1
             For y As Integer = yOffset To yOffset + heightY - 1
                 If map(x, y) = Blocks.Red Then
@@ -205,11 +205,9 @@ Public Class Main
     Public Function GetPixel(ByVal x As Integer, ByVal y As Integer) As Color
         Return perlin.GetPixel(x, y)
     End Function
-    Public Sub SetBrick(ByVal x As Integer, ByVal y As Integer, ByVal brick As Byte)
-        If Math.Floor(x / tileSize) < map.GetUpperBound(0) And Math.Floor(y / tileSize) < map.GetUpperBound(1) Then
-            map(Convert.ToInt16(Math.Floor((x + (xOffset * tileSize)) / tileSize)), Convert.ToInt16(Math.Floor((y + (yOffset * tileSize)) / tileSize))) = brick
-        End If
-    End Sub
+    Public Function MousePointToMapPoint(ByVal mousePoint As Point) As Point
+        Return New Point(Convert.ToInt16(Math.Floor((mousePoint.X + (xOffset * tileSize)) / tileSize)), Convert.ToInt16(Math.Floor((mousePoint.Y + (xOffset * tileSize)) / tileSize)))
+    End Function
     Public Function GetBrick(ByVal x As Integer, ByVal y As Integer) As Byte
         Return map(Convert.ToInt16(Math.Floor((x + (xOffset * tileSize)) / tileSize)), Convert.ToInt16(Math.Floor((y + (yOffset * tileSize)) / tileSize)))
     End Function
@@ -239,16 +237,6 @@ Public Class Main
         ElseIf e.Button = Windows.Forms.MouseButtons.Right Then
             RemoveBlock(e.X, e.Y)
         End If
-        'SetBrick(e.X, e.Y, CByte(Blocks.IntersectionUp))
-        'Select Case ListBox1.SelectedIndex
-        '    Case 0
-
-        '    Case 1
-        '        SetBrick(e.X, e.Y, CByte(Blocks.Grass))
-        '    Case 2
-
-        'End Select
-        'SetBrick(e.X, e.Y, CByte(Blocks.RailHorizontal))
         'Me.Text = GetBrick(e.X, e.Y).ToString
         Me.Invalidate()
 
@@ -272,8 +260,8 @@ Public Class Main
         'End Select
         mousePos = New Point(Convert.ToInt32(e.X / tileSize) * tileSize, Convert.ToInt32(e.Y / tileSize) * tileSize)
         Me.Invalidate(New Rectangle(e.X - 64, e.Y - 64, 128, 128))
-
-        Me.Text = Convert.ToString(GetBrick(mousePos.X, mousePos.Y))
+        'Me.Text = Convert.ToString(GetBrick(mousePos.X, mousePos.Y))
+        'Me.Text = Convert.ToString(MousePointToMapPoint(New Point(e.X, e.Y)))
     End Sub
     Public Sub setup()
         For i As Integer = 0 To map.GetUpperBound(0)
@@ -335,8 +323,10 @@ Public Class Main
         Select Case selectedIndex
             Case 0
                 map(xx, yy) = CByte(Blocks.StreetHorizontal)
+                economy.BuildStreet()
             Case 1
                 map(xx, yy) = CByte(Blocks.RailHorizontal)
+                economy.BuildRailway()
             Case 2
 
         End Select
@@ -353,6 +343,7 @@ Public Class Main
         If xx < 1 Or yy < 1 Or yy > 498 Or xx > 498 Then
             Exit Sub
         End If
+        economy.regainMoney(economy.ByteToAmount(GetBrick(xx, yy)))
         map(xx, yy) = CByte(Blocks.Grass)
 
 

@@ -13,6 +13,7 @@
             .DrawRectangle(Pens.Black, New Rectangle(New Point(start.X + index * selectionWidth, start.Y - selectionWidth), New Size(selectionWidth, selectionWidth)))
             .DrawImage(tileMap, start.X, start.Y - selectionWidth, New Rectangle(11 * tileSize, 0, tileSize, tileSize), GraphicsUnit.Pixel)
             .DrawImage(tileMap, start.X + selectionWidth, start.Y - selectionWidth, New Rectangle(11 * tileSize, 2 * tileSize, tileSize, tileSize), GraphicsUnit.Pixel)
+            .DrawString("Money: " + Main.economy.money.ToString, New System.Drawing.Font("Segoe UI Light", 15), Brushes.Yellow, New Point(10, 10))
         End With
 
     End Sub
