@@ -39,6 +39,8 @@ Public Class Main
 
         RailHorizontal = 16
         RailVertical = 17
+
+        House = 20
     End Enum
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -152,6 +154,11 @@ Public Class Main
 
                     End With
                 End If
+                If map(x, y) = Blocks.House Then
+                    With e.Graphics
+                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(0, 4 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                    End With
+                End If
 
             Next
         Next
@@ -213,6 +220,31 @@ Public Class Main
     End Function
     Public Function GetBrickRaw(ByVal x As Integer, ByVal y As Integer) As Byte
         Return map(Convert.ToInt32(x / tileSize), Convert.ToInt32(y / tileSize))
+    End Function
+    Public Function GetFromIndex(ByVal mapX As Integer, ByVal mapY As Integer) As Byte
+        Return map(mapX, mapY)
+    End Function
+    Public Function ByteToString(ByVal b As Byte) As String
+        If b >= 4 And b <= 14 Then
+            Return "Straße"
+        ElseIf b = 15 Then
+            Return "Grass"
+        ElseIf b >= 16 And b <= 17 Then
+            Return "Schiene"
+        ElseIf b = 20 Then
+            Return "House"
+        End If
+        Return "Nothing"
+    End Function
+    Public Function IndexToString(ByVal index As Integer) As String
+        If index = 0 Then
+            Return "Straße"
+        ElseIf index = 1 Then
+            Return "Schiene"
+        ElseIf index = 2 Then
+            Return "Haus"
+        End If
+        Return "EmptySlot"
     End Function
     Private Sub SelectIndex(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles MyBase.MouseWheel
         If e.Delta > 0 Then
@@ -322,13 +354,20 @@ Public Class Main
 
         Select Case selectedIndex
             Case 0
-                map(xx, yy) = CByte(Blocks.StreetHorizontal)
-                economy.BuildStreet()
+                If map(xx, yy) = CByte(Blocks.Grass) Then
+                    map(xx, yy) = CByte(Blocks.StreetHorizontal)
+                    economy.BuildStreet()
+                End If
             Case 1
-                map(xx, yy) = CByte(Blocks.RailHorizontal)
-                economy.BuildRailway()
+                If map(xx, yy) = CByte(Blocks.Grass) Then
+                    map(xx, yy) = CByte(Blocks.RailHorizontal)
+                    economy.BuildRailway()
+                End If
             Case 2
-
+                If map(xx, yy) = CByte(Blocks.Grass) Then
+                    map(xx, yy) = CByte(Blocks.House)
+                    economy.buildHouse()
+                End If
         End Select
         CheckStreets(xx, yy)
 
@@ -343,7 +382,8 @@ Public Class Main
         If xx < 1 Or yy < 1 Or yy > 498 Or xx > 498 Then
             Exit Sub
         End If
-        economy.regainMoney(economy.ByteToAmount(GetBrick(xx, yy)))
+        Me.Text = xx.ToString
+        economy.regainMoney(economy.ByteToAmount(GetFromIndex(xx, yy)))
         map(xx, yy) = CByte(Blocks.Grass)
 
 
