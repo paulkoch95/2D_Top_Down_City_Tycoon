@@ -14,6 +14,8 @@ Public Class Main
     Public UI As New IngameUI
     Public selectedIndex As Integer
 
+    Public notes As New List(Of Notification)
+
     Public mousePos As Point
     Public economy As Economy = New Economy
 
@@ -174,7 +176,15 @@ Public Class Main
 
         End With
         UI.draw(e.Graphics, New Point(10, 640), selectedIndex, tileSize)
+        For Each n In notes
+            If notes.Count > 3 Then
+                notes.Remove(notes.First)
+            End If
 
+            n.draw(e.Graphics)
+
+        Next
+        
     End Sub
 
     Private Sub GameLoop_Tick(sender As Object, e As EventArgs) Handles GameLoop.Tick
@@ -357,6 +367,9 @@ Public Class Main
                 If map(xx, yy) = CByte(Blocks.Grass) Then
                     map(xx, yy) = CByte(Blocks.StreetHorizontal)
                     economy.BuildStreet()
+                    Dim d As New Notification()
+                    d.setup(New Point(xx * tileSize, yy * tileSize), economy.cost_street.ToString, Color.Red)
+                    notes.Add(d)
                 End If
             Case 1
                 If map(xx, yy) = CByte(Blocks.Grass) Then

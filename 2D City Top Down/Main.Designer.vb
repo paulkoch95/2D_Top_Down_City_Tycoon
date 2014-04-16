@@ -30,7 +30,7 @@ Partial Class Main
         'GameLoop
         '
         Me.GameLoop.Enabled = True
-        Me.GameLoop.Interval = 1000
+        Me.GameLoop.Interval = 250
         '
         'Main
         '
