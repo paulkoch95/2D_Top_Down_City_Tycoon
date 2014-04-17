@@ -1,5 +1,7 @@
 ﻿Option Strict On
 
+Imports System.Threading
+
 Public Class Main
     Public widthX, heightY As Integer
     Public xOffset, yOffset As Integer
@@ -18,6 +20,8 @@ Public Class Main
 
     Public mousePos As Point
     Public economy As Economy = New Economy
+
+
 
     Public Enum Blocks
         Red = 0
@@ -54,7 +58,6 @@ Public Class Main
         'readimage()
         Me.DoubleBuffered = True
     End Sub
-
     Public Sub render(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
         For x As Integer = xOffset To xOffset + widthX - 1
             For y As Integer = yOffset To yOffset + heightY - 1
@@ -177,12 +180,8 @@ Public Class Main
         End With
         UI.draw(e.Graphics, New Point(10, 640), selectedIndex, tileSize)
         For Each n In notes
-            If notes.Count > 3 Then
-                notes.Remove(notes.First)
-            End If
-
             n.draw(e.Graphics)
-
+            n.evaluate()
         Next
         
     End Sub
@@ -190,9 +189,9 @@ Public Class Main
     Private Sub GameLoop_Tick(sender As Object, e As EventArgs) Handles GameLoop.Tick
         'evaluateCars()
         Me.Invalidate()
+        
         'traffic.TrafficFlow()
     End Sub
-
     Public Sub readimage()
         Dim sw As New Stopwatch
         sw.Start()
@@ -455,4 +454,6 @@ Public Class Main
             map(xx, yy) = CByte(Blocks.RailVertical)
         End If
     End Sub
+
+
 End Class
