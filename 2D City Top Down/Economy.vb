@@ -5,6 +5,7 @@ Public Class Economy
     Public cost_street As Integer = 250
     Public cost_railway As Integer = 250
     Public cost_house As Integer = 500
+    Public cost_industry As Integer = 750
 
 
     Public Sub BuildStreet()
@@ -19,6 +20,9 @@ Public Class Economy
     Public Sub BuildHouse()
         money -= cost_house
     End Sub
+    Public Sub BuildIndustry()
+        money -= cost_industry
+    End Sub
     Public Function ByteToAmount(ByVal b As Byte) As Integer
         If b > 3 And b <= 14 Then
             Return cost_street
@@ -28,6 +32,8 @@ Public Class Economy
             Return cost_railway
         ElseIf b = 20 Then
             Return cost_house
+        ElseIf b = 25 Then
+            Return cost_industry
         End If
         Return vbNull
     End Function
@@ -38,6 +44,8 @@ Public Class Economy
             Return cost_railway
         ElseIf index = 2 Then
             Return cost_house
+        ElseIf index = 3 Then
+            Return cost_industry
         End If
         Return 0
     End Function

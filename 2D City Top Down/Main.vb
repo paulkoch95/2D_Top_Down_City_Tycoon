@@ -47,6 +47,8 @@ Public Class Main
         RailVertical = 17
 
         House = 20
+
+        Industry = 25
     End Enum
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -164,6 +166,11 @@ Public Class Main
                         .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(0, 4 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
                     End With
                 End If
+                If map(x, y) = Blocks.Industry Then
+                    With e.Graphics
+                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(0, 5 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                    End With
+                End If
 
             Next
         Next
@@ -172,18 +179,18 @@ Public Class Main
         With e.Graphics
             Select Case GetBrickRaw(mousePos.X, mousePos.Y)
                 Case 15
-                    .FillRectangle(New SolidBrush(Color.FromArgb(70, 0, 255, 0)), New Rectangle(mousePos, New Size(32, 32)))
+                    .FillRectangle(New SolidBrush(Color.FromArgb(100, 0, 255, 0)), New Rectangle(mousePos, New Size(32, 32)))
                 Case Is <> 15
-                    .FillRectangle(New SolidBrush(Color.FromArgb(70, 255, 0, 0)), New Rectangle(mousePos, New Size(32, 32)))
+                    .FillRectangle(New SolidBrush(Color.FromArgb(100, 255, 0, 0)), New Rectangle(mousePos, New Size(32, 32)))
             End Select
 
         End With
         UI.draw(e.Graphics, New Point(10, 640), selectedIndex, tileSize)
-        For Each n In notes
-            n.draw(e.Graphics)
-            n.evaluate()
-        Next
-        
+        'For Each n In notes
+        'n.draw(e.Graphics)
+        'n.evaluate()
+        'Next
+
     End Sub
 
     Private Sub GameLoop_Tick(sender As Object, e As EventArgs) Handles GameLoop.Tick
@@ -242,6 +249,8 @@ Public Class Main
             Return "Schiene"
         ElseIf b = 20 Then
             Return "House"
+        ElseIf b = 25 Then
+            Return "Industry"
         End If
         Return "Nothing"
     End Function
@@ -252,6 +261,8 @@ Public Class Main
             Return "Schiene"
         ElseIf index = 2 Then
             Return "Haus"
+        ElseIf index = 3 Then
+            Return "Industry"
         End If
         Return "EmptySlot"
     End Function
@@ -380,8 +391,16 @@ Public Class Main
                     map(xx, yy) = CByte(Blocks.House)
                     economy.buildHouse()
                 End If
+            Case 3
+                If map(xx, yy) = CByte(Blocks.Grass) Then
+                    map(xx, yy) = CByte(Blocks.Industry)
+                    economy.BuildIndustry()
+                End If
         End Select
-        CheckStreets(xx, yy)
+        If selectedIndex = 0 Or selectedIndex = 1 Then
+            CheckStreets(xx, yy)
+        End If
+
 
 
 
