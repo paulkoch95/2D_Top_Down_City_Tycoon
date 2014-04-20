@@ -20,6 +20,7 @@ Public Class Main
 
     Public mousePos As Point
     Public economy As Economy = New Economy
+    Public minMap As New Minimap
 
 
 
@@ -45,6 +46,8 @@ Public Class Main
 
         RailHorizontal = 16
         RailVertical = 17
+        RailIntersectionOne = 18
+        RailIntersectionTwo = 19
 
         House = 20
 
@@ -171,6 +174,16 @@ Public Class Main
                         .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(0, 5 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
                     End With
                 End If
+                If map(x, y) = Blocks.RailIntersectionOne Then
+                    With e.Graphics
+                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(2 * tileSize, 2 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                    End With
+                End If
+                If map(x, y) = Blocks.RailIntersectionTwo Then
+                    With e.Graphics
+                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(3 * tileSize, 2 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                    End With
+                End If
 
             Next
         Next
@@ -185,6 +198,7 @@ Public Class Main
             End Select
 
         End With
+        minMap.DrawMiniMap(e.Graphics, map)
         UI.draw(e.Graphics, New Point(10, 640), selectedIndex, tileSize)
         'For Each n In notes
         'n.draw(e.Graphics)
@@ -472,6 +486,13 @@ Public Class Main
             map(xx, yy + 1) = CByte(Blocks.RailVertical)
             map(xx, yy) = CByte(Blocks.RailVertical)
         End If
+        If map(xx, yy) = Blocks.StreetVertical And map(xx - 1, yy) = Blocks.RailHorizontal And map(xx + 1, yy) = Blocks.RailHorizontal Then
+            map(xx, yy) = CByte(Blocks.RailIntersectionOne)
+        End If
+        If map(xx, yy) = Blocks.StreetHorizontal And map(xx, yy - 1) = Blocks.RailVertical And map(xx, yy + 1) = Blocks.RailVertical Then
+            map(xx, yy) = CByte(Blocks.RailIntersectionTwo)
+        End If
+
     End Sub
 
 
