@@ -213,6 +213,9 @@ Public Class Main
         
         'traffic.TrafficFlow()
     End Sub
+    Private Sub EconomyEvaluation_Tick(sender As Object, e As EventArgs) Handles EconomyEvaluation.Tick
+        economy.evaluate()
+    End Sub
     Public Sub readimage()
         Dim sw As New Stopwatch
         sw.Start()
@@ -388,7 +391,7 @@ Public Class Main
 
         Select Case selectedIndex
             Case 0
-                If map(xx, yy) = CByte(Blocks.Grass) Then
+                If map(xx, yy) = CByte(Blocks.Grass) And economy.money >= economy.cost_street Then
                     map(xx, yy) = CByte(Blocks.StreetHorizontal)
                     economy.BuildStreet()
                     Dim d As New Notification()
@@ -396,17 +399,17 @@ Public Class Main
                     notes.Add(d)
                 End If
             Case 1
-                If map(xx, yy) = CByte(Blocks.Grass) Then
+                If map(xx, yy) = CByte(Blocks.Grass) And economy.money >= economy.cost_railway Then
                     map(xx, yy) = CByte(Blocks.RailHorizontal)
                     economy.BuildRailway()
                 End If
             Case 2
-                If map(xx, yy) = CByte(Blocks.Grass) Then
+                If map(xx, yy) = CByte(Blocks.Grass) And economy.money >= economy.cost_house Then
                     map(xx, yy) = CByte(Blocks.House)
-                    economy.buildHouse()
+                    economy.BuildHouse()
                 End If
             Case 3
-                If map(xx, yy) = CByte(Blocks.Grass) Then
+                If map(xx, yy) = CByte(Blocks.Grass) And economy.money >= economy.cost_industry Then
                     map(xx, yy) = CByte(Blocks.Industry)
                     economy.BuildIndustry()
                 End If
@@ -428,7 +431,7 @@ Public Class Main
             Exit Sub
         End If
         Me.Text = xx.ToString
-        economy.regainMoney(economy.ByteToAmount(GetFromIndex(xx, yy)))
+        economy.regainMoney(economy.ByteToAmount(GetFromIndex(xx, yy)), GetFromIndex(xx, yy))
         map(xx, yy) = CByte(Blocks.Grass)
 
 
@@ -494,6 +497,7 @@ Public Class Main
         End If
 
     End Sub
+
 
 
 End Class

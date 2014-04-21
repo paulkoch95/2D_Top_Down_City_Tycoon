@@ -70,7 +70,9 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Economy.vb" />
+    <Compile Include="Economy\Economy.vb" />
+    <Compile Include="Economy\House.vb" />
+    <Compile Include="Economy\Industry.vb" />
     <Compile Include="Main.vb">
       <SubType>Form</SubType>
     </Compile>

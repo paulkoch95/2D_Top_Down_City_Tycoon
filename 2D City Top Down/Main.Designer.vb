@@ -25,12 +25,18 @@ Partial Class Main
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
         Me.GameLoop = New System.Windows.Forms.Timer(Me.components)
+        Me.EconomyEvaluation = New System.Windows.Forms.Timer(Me.components)
         Me.SuspendLayout()
         '
         'GameLoop
         '
         Me.GameLoop.Enabled = True
         Me.GameLoop.Interval = 250
+        '
+        'EconomyEvaluation
+        '
+        Me.EconomyEvaluation.Enabled = True
+        Me.EconomyEvaluation.Interval = 10000
         '
         'Main
         '
@@ -45,5 +51,6 @@ Partial Class Main
 
     End Sub
     Friend WithEvents GameLoop As System.Windows.Forms.Timer
+    Friend WithEvents EconomyEvaluation As System.Windows.Forms.Timer
 
 End Class
