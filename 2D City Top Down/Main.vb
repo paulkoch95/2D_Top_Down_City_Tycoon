@@ -48,8 +48,9 @@ Public Class Main
         RailVertical = 17
         RailIntersectionOne = 18
         RailIntersectionTwo = 19
+        RailRailIntersection = 20
 
-        House = 20
+        House = 22
 
         Industry = 25
     End Enum
@@ -184,6 +185,11 @@ Public Class Main
                         .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(3 * tileSize, 2 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
                     End With
                 End If
+                If map(x, y) = Blocks.RailRailIntersection Then
+                    With e.Graphics
+                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(4 * tileSize, 2 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                    End With
+                End If
 
             Next
         Next
@@ -264,7 +270,7 @@ Public Class Main
             Return "Grass"
         ElseIf b >= 16 And b <= 17 Then
             Return "Schiene"
-        ElseIf b = 20 Then
+        ElseIf b = 22 Then
             Return "House"
         ElseIf b = 25 Then
             Return "Industry"
@@ -494,6 +500,9 @@ Public Class Main
         End If
         If map(xx, yy) = Blocks.StreetHorizontal And map(xx, yy - 1) = Blocks.RailVertical And map(xx, yy + 1) = Blocks.RailVertical Then
             map(xx, yy) = CByte(Blocks.RailIntersectionTwo)
+        End If
+        If map(xx - 1, yy) = Blocks.RailHorizontal And map(xx + 1, yy) = Blocks.RailHorizontal And map(xx, yy - 1) = Blocks.RailVertical And map(xx, yy + 1) = Blocks.RailVertical Then
+            map(xx, yy) = CByte(Blocks.RailRailIntersection)
         End If
 
     End Sub

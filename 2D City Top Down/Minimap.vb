@@ -10,7 +10,7 @@
                     ElseIf map(x, y) >= 16 And map(x, y) <= 17 Then
                         .FillRectangle(Brushes.Brown, New Rectangle(x, y, 1, 1))
                     End If
-                    .DrawRectangle(Pens.Black, New Rectangle(Main.xOffset, Main.yOffset, Main.xOffset + Main.widthX - 1, Main.yOffset + Main.heightY - 1))
+                    .DrawRectangle(Pens.Black, New Rectangle(Main.xOffset, Main.yOffset, Main.widthX - 1, Main.heightY - 1))
 
 
                 End With

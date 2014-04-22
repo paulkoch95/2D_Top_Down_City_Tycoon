@@ -22,7 +22,7 @@ Public Class Economy
     End Sub
     Public Sub regainMoney(ByVal amount As Integer, ByVal index As Integer)
         Select Case index
-            Case 20
+            Case 22
                 houses.Remove(houses.Last)
                 money += houses.Last.price
                 Exit Sub
@@ -49,9 +49,9 @@ Public Class Economy
             Return cost_street
         ElseIf b = 15 Then
             Return 0
-        ElseIf b > 15 And b <= 17 Then
+        ElseIf b > 15 And b <= 20 Then
             Return cost_railway
-        ElseIf b = 20 Then
+        ElseIf b = 22 Then
             Return cost_house
         ElseIf b = 25 Then
             Return cost_industry
