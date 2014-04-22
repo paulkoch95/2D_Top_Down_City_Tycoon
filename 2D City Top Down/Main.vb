@@ -196,7 +196,7 @@ Public Class Main
         ' e.Graphics.DrawRectangles(Pens.Blue, traffic.cars.ToArray)
 
         With e.Graphics
-            Select Case GetBrickRaw(mousePos.X, mousePos.Y)
+            Select Case map(mousePos.X, mousePos.Y)
                 Case 15
                     .FillRectangle(New SolidBrush(Color.FromArgb(100, 0, 255, 0)), New Rectangle(mousePos.X * tileSize, mousePos.Y * tileSize, tileSize, tileSize))
                 Case Is <> 15
