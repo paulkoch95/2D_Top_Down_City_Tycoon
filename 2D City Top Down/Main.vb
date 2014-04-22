@@ -400,15 +400,15 @@ Public Class Main
                 If map(xx, yy) = CByte(Blocks.Grass) And economy.money >= economy.cost_street Then
                     map(xx, yy) = CByte(Blocks.StreetHorizontal)
                     economy.BuildStreet()
-                    Dim d As New Notification()
-                    d.setup(New Point(xx * tileSize, yy * tileSize), economy.cost_street.ToString, Color.Red)
-                    notes.Add(d)
+
                 End If
+                CheckStreets(xx, yy)
             Case 1
                 If map(xx, yy) = CByte(Blocks.Grass) And economy.money >= economy.cost_railway Then
                     map(xx, yy) = CByte(Blocks.RailHorizontal)
                     economy.BuildRailway()
                 End If
+                CheckRails(xx, yy)
             Case 2
                 If map(xx, yy) = CByte(Blocks.Grass) And economy.money >= economy.cost_house Then
                     map(xx, yy) = CByte(Blocks.House)
@@ -420,9 +420,6 @@ Public Class Main
                     economy.BuildIndustry()
                 End If
         End Select
-        If selectedIndex = 0 Or selectedIndex = 1 Then
-            CheckStreets(xx, yy)
-        End If
 
 
 
@@ -487,6 +484,17 @@ Public Class Main
             map(xx, yy) = CByte(Blocks.Intersection)
         End If
 
+        If map(xx, yy) = Blocks.StreetVertical And map(xx - 1, yy) = Blocks.RailHorizontal And map(xx + 1, yy) = Blocks.RailHorizontal Then
+            map(xx, yy) = CByte(Blocks.RailIntersectionOne)
+        End If
+        If map(xx, yy) = Blocks.StreetHorizontal And map(xx, yy - 1) = Blocks.RailVertical And map(xx, yy + 1) = Blocks.RailVertical Then
+            map(xx, yy) = CByte(Blocks.RailIntersectionTwo)
+        End If
+        
+        
+
+    End Sub
+    Public Sub CheckRails(ByVal xx As Integer, ByVal yy As Integer)
         If map(xx, yy - 1) = Blocks.RailHorizontal Or map(xx, yy - 1) = Blocks.RailVertical Then
             map(xx, yy - 1) = CByte(Blocks.RailVertical)
             map(xx, yy) = CByte(Blocks.RailVertical)
@@ -495,6 +503,7 @@ Public Class Main
             map(xx, yy + 1) = CByte(Blocks.RailVertical)
             map(xx, yy) = CByte(Blocks.RailVertical)
         End If
+
         If map(xx, yy) = Blocks.StreetVertical And map(xx - 1, yy) = Blocks.RailHorizontal And map(xx + 1, yy) = Blocks.RailHorizontal Then
             map(xx, yy) = CByte(Blocks.RailIntersectionOne)
         End If
@@ -503,10 +512,9 @@ Public Class Main
         End If
         If map(xx - 1, yy) = Blocks.RailHorizontal And map(xx + 1, yy) = Blocks.RailHorizontal And map(xx, yy - 1) = Blocks.RailVertical And map(xx, yy + 1) = Blocks.RailVertical Then
             map(xx, yy) = CByte(Blocks.RailRailIntersection)
+            Me.Text = "CheckRails"
         End If
-
     End Sub
-
 
 
 End Class
