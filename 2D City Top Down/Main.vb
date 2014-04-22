@@ -18,7 +18,7 @@ Public Class Main
 
     Public notes As New List(Of Notification)
 
-    Public mousePos As Point
+    Public mousePos As New Point
     Public economy As Economy = New Economy
     Public minMap As New Minimap
 
@@ -198,9 +198,9 @@ Public Class Main
         With e.Graphics
             Select Case GetBrickRaw(mousePos.X, mousePos.Y)
                 Case 15
-                    .FillRectangle(New SolidBrush(Color.FromArgb(100, 0, 255, 0)), New Rectangle(mousePos, New Size(32, 32)))
+                    .FillRectangle(New SolidBrush(Color.FromArgb(100, 0, 255, 0)), New Rectangle(mousePos.X * tileSize, mousePos.Y * tileSize, tileSize, tileSize))
                 Case Is <> 15
-                    .FillRectangle(New SolidBrush(Color.FromArgb(100, 255, 0, 0)), New Rectangle(mousePos, New Size(32, 32)))
+                    .FillRectangle(New SolidBrush(Color.FromArgb(100, 255, 0, 0)), New Rectangle(mousePos.X * tileSize, mousePos.Y * tileSize, tileSize, tileSize))
             End Select
 
         End With
@@ -333,8 +333,10 @@ Public Class Main
         '    Case Is > Me.Width
         '        xOffset += 1
         'End Select
-        mousePos = New Point(Convert.ToInt32(e.X / tileSize) * tileSize, Convert.ToInt32(e.Y / tileSize) * tileSize)
-        Me.Invalidate(New Rectangle(e.X - 64, e.Y - 64, 128, 128))
+        mousePos.X = Convert.ToInt32(Math.Floor(e.X / tileSize))
+        mousePos.Y = Convert.ToInt32(Math.Floor(e.Y / tileSize))
+        Dim rectSize As Int16 = 9 'The invalidated Rect around Mouse. Only odd values! The bigger, the less artifacts, but worse performance.
+        Me.Invalidate(New Rectangle(CInt(mousePos.X * tileSize - tileSize * Math.Floor(rectSize / 2)), CInt(mousePos.Y * tileSize - tileSize * Math.Floor(rectSize / 2)), tileSize * rectSize, tileSize * rectSize))
         'Me.Text = Convert.ToString(GetBrick(mousePos.X, mousePos.Y))
         'Me.Text = Convert.ToString(MousePointToMapPoint(New Point(e.X, e.Y)))
     End Sub
