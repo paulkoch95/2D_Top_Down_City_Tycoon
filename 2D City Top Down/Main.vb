@@ -64,6 +64,7 @@ Public Class Main
         setup()
         'readimage()
         Me.DoubleBuffered = True
+        InterpolateBetweenTwoPoints(New Point(5, 5), New Point(2, 2))
     End Sub
     Public Sub render(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
         For x As Integer = xOffset To xOffset + widthX - 1
@@ -266,6 +267,41 @@ Public Class Main
     Public Function GetFromIndex(ByVal mapX As Integer, ByVal mapY As Integer) As Byte
         Return map(mapX, mapY)
     End Function
+    Public Sub InterpolateBetweenTwoPoints(ByVal StartPoint As Point, ByVal EndPoint As Point)
+        If EndPoint.X > StartPoint.X And EndPoint.Y > StartPoint.Y Then
+            For xx As Integer = StartPoint.X To EndPoint.X
+                map(xx, StartPoint.Y) = CByte(Blocks.Gray)
+            Next
+            For yy As Integer = StartPoint.Y To EndPoint.Y
+                map(EndPoint.X, yy) = CByte(Blocks.Gray)
+            Next
+        End If
+
+        If EndPoint.X < StartPoint.X And EndPoint.Y > StartPoint.Y Then
+            For xx As Integer = EndPoint.X To StartPoint.X
+                map(xx, StartPoint.Y) = CByte(Blocks.Gray)
+            Next
+            For yy As Integer = StartPoint.Y To EndPoint.Y
+                map(EndPoint.X, yy) = CByte(Blocks.Gray)
+            Next
+        End If
+        If EndPoint.X < StartPoint.X And EndPoint.Y < StartPoint.Y Then
+            For xx As Integer = EndPoint.X To StartPoint.X
+                map(xx, StartPoint.Y) = CByte(Blocks.Gray)
+            Next
+            For yy As Integer = EndPoint.Y To StartPoint.Y
+                map(EndPoint.X, yy) = CByte(Blocks.Gray)
+            Next
+        End If
+        If EndPoint.X > StartPoint.X And EndPoint.Y < StartPoint.Y Then
+            For xx As Integer = StartPoint.X To EndPoint.X
+                map(xx, StartPoint.Y) = CByte(Blocks.Gray)
+            Next
+            For yy As Integer = EndPoint.Y To StartPoint.Y
+                map(EndPoint.X, yy) = CByte(Blocks.Gray)
+            Next
+        End If
+    End Sub
     Public Function ByteToString(ByVal b As Byte) As String
         If b >= 4 And b <= 14 Then
             Return "Straße"
@@ -342,6 +378,7 @@ Public Class Main
         Me.Invalidate(New Rectangle(CInt(mousePos.X * tileSize - tileSize * Math.Floor(rectSize / 2)), CInt(mousePos.Y * tileSize - tileSize * Math.Floor(rectSize / 2)), tileSize * rectSize, tileSize * rectSize))
         'Me.Text = Convert.ToString(GetBrick(mousePos.X, mousePos.Y))
         'Me.Text = Convert.ToString(MousePointToMapPoint(New Point(e.X, e.Y)))
+        'InterpolateBetweenTwoPoints(New Point(10, 10), mousePos)
     End Sub
     Public Sub setup()
         For i As Integer = 0 To map.GetUpperBound(0)
