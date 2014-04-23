@@ -21,6 +21,7 @@ Public Class Main
     Public mousePos As New Point
     Public economy As Economy = New Economy
     Public minMap As New Minimap
+    Public yearCylce As New YearCycle
 
 
 
@@ -221,6 +222,8 @@ Public Class Main
     End Sub
     Private Sub EconomyEvaluation_Tick(sender As Object, e As EventArgs) Handles EconomyEvaluation.Tick
         economy.evaluate()
+        yearCylce.evaluate()
+        'Me.Text = "Year: " + yearCylce.year.ToString + " |Day: " + yearCylce.day.ToString
     End Sub
     Public Sub readimage()
         Dim sw As New Stopwatch

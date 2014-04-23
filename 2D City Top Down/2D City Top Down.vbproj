@@ -99,6 +99,7 @@
     </Compile>
     <Compile Include="Notification.vb" />
     <Compile Include="Traffic.vb" />
+    <Compile Include="YearCycle.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Main.resx">
