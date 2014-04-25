@@ -59,6 +59,7 @@ Public Class Main
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'UI.setup()
         traffic.AddCar(100, 100, 23, 23)
+        economy.init()
         widthX = 31
         heightY = 18
         setup()
@@ -325,6 +326,8 @@ Public Class Main
             Return "Haus"
         ElseIf index = 3 Then
             Return "Industry"
+        ElseIf index = 4 Then
+            Return "Help"
         End If
         Return "EmptySlot"
     End Function
@@ -454,13 +457,16 @@ Public Class Main
             Case 2
                 If map(xx, yy) = CByte(Blocks.Grass) And economy.money >= economy.cost_house Then
                     map(xx, yy) = CByte(Blocks.House)
-                    economy.BuildHouse()
+                    economy.BuildHouse(New Point(xx, yy))
                 End If
             Case 3
                 If map(xx, yy) = CByte(Blocks.Grass) And economy.money >= economy.cost_industry Then
                     map(xx, yy) = CByte(Blocks.Industry)
-                    economy.BuildIndustry()
+                    economy.BuildIndustry(New Point(xx, yy))
                 End If
+            Case 4
+                Me.Text = "Checking!"
+                economy.checkForBuildings(New Point(xx, yy))
         End Select
 
 
@@ -472,6 +478,9 @@ Public Class Main
 
         Dim xx As Integer = Convert.ToInt16(Math.Floor((x + (xOffset * tileSize)) / tileSize))
         Dim yy As Integer = Convert.ToInt16(Math.Floor((y + (yOffset * tileSize)) / tileSize))
+        If selectedIndex = 4 Then
+            Exit Sub 'Wenn man die Hilfe auswählt soll man nichts abreissen können
+        End If
         If xx < 1 Or yy < 1 Or yy > 498 Or xx > 498 Then
             Exit Sub
         End If
