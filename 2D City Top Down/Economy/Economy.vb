@@ -7,6 +7,7 @@ Public Class Economy
     Public cost_street As Integer = 250
     Public cost_railway As Integer = 250
     Public cost_industry As Integer = 750
+    Public cost_electricwire As Integer = 100
     Public tax As Integer = 15
     Public industry_tax As Integer = 80
 
@@ -22,6 +23,9 @@ Public Class Economy
     End Sub
     Public Sub BuildRailway()
         money -= cost_railway
+    End Sub
+    Public Sub BuildElectricWire()
+        money -= cost_electricwire
     End Sub
     Public Sub regainMoney(ByVal amount As Integer, ByVal index As Integer)
         Select Case index
@@ -62,6 +66,8 @@ Public Class Economy
             Return cost_house
         ElseIf b = 25 Then
             Return cost_industry
+        ElseIf b >= 30 And b <= 31 Then
+            Return cost_electricwire
         End If
         Return 0
     End Function
@@ -74,6 +80,8 @@ Public Class Economy
             Return cost_house
         ElseIf index = 3 Then
             Return cost_industry
+        ElseIf index = 5 Then
+            Return cost_electricwire
         End If
         Return 0
     End Function
@@ -88,15 +96,16 @@ Public Class Economy
     Public Sub checkForBuildings(ByVal index As Point)
         For Each h As House In houses
             If index = h.pos Then
-                MsgBox("Haus mit " + h.inhabitants.ToString + "Einwohnern. Steuereinnahmen: " + (tax * h.inhabitants).ToString)
+                MsgBox("House with " + h.inhabitants.ToString + "inhabitans. Tax Income: " + (tax * h.inhabitants).ToString)
                 Exit Sub
             End If
         Next
         For Each ind As Industry In industry
             If index = ind.pos Then
-                MsgBox("Industry mit einer Wirtschaftlichen Kraft von: " + ind.power.ToString + " Steuereinnahmen: " + (industry_tax * ind.power).ToString)
+                MsgBox("Industry with an Economic Power of: " + ind.power.ToString + " units. Tax Income: " + (industry_tax * ind.power).ToString)
                 Exit Sub
             End If
         Next
+        MsgBox(Main.ByteToString(Main.map(index.X, index.Y)))
     End Sub
 End Class

@@ -54,6 +54,10 @@ Public Class Main
         House = 22
 
         Industry = 25
+
+        ElectricWireHorizontal = 30
+        ElectricWireVertical = 31
+
     End Enum
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -193,6 +197,16 @@ Public Class Main
                         .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(4 * tileSize, 2 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
                     End With
                 End If
+                If map(x, y) = Blocks.ElectricWireHorizontal Then
+                    With e.Graphics
+                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(0 * tileSize, 6 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                    End With
+                End If
+                If map(x, y) = Blocks.ElectricWireVertical Then
+                    With e.Graphics
+                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(1 * tileSize, 6 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                    End With
+                End If
 
             Next
         Next
@@ -271,63 +285,67 @@ Public Class Main
     Public Sub InterpolateBetweenTwoPoints(ByVal StartPoint As Point, ByVal EndPoint As Point)
         If EndPoint.X > StartPoint.X And EndPoint.Y > StartPoint.Y Then
             For xx As Integer = StartPoint.X To EndPoint.X
-                map(xx, StartPoint.Y) = CByte(Blocks.Gray)
+                map(xx, StartPoint.Y) = CByte(Blocks.ElectricWireHorizontal)
             Next
             For yy As Integer = StartPoint.Y To EndPoint.Y
-                map(EndPoint.X, yy) = CByte(Blocks.Gray)
+                map(EndPoint.X, yy) = CByte(Blocks.ElectricWireHorizontal)
             Next
         End If
 
         If EndPoint.X < StartPoint.X And EndPoint.Y > StartPoint.Y Then
             For xx As Integer = EndPoint.X To StartPoint.X
-                map(xx, StartPoint.Y) = CByte(Blocks.Gray)
+                map(xx, StartPoint.Y) = CByte(Blocks.ElectricWireHorizontal)
             Next
             For yy As Integer = StartPoint.Y To EndPoint.Y
-                map(EndPoint.X, yy) = CByte(Blocks.Gray)
+                map(EndPoint.X, yy) = CByte(Blocks.ElectricWireHorizontal)
             Next
         End If
         If EndPoint.X < StartPoint.X And EndPoint.Y < StartPoint.Y Then
             For xx As Integer = EndPoint.X To StartPoint.X
-                map(xx, StartPoint.Y) = CByte(Blocks.Gray)
+                map(xx, StartPoint.Y) = CByte(Blocks.ElectricWireHorizontal)
             Next
             For yy As Integer = EndPoint.Y To StartPoint.Y
-                map(EndPoint.X, yy) = CByte(Blocks.Gray)
+                map(EndPoint.X, yy) = CByte(Blocks.ElectricWireHorizontal)
             Next
         End If
         If EndPoint.X > StartPoint.X And EndPoint.Y < StartPoint.Y Then
             For xx As Integer = StartPoint.X To EndPoint.X
-                map(xx, StartPoint.Y) = CByte(Blocks.Gray)
+                map(xx, StartPoint.Y) = CByte(Blocks.ElectricWireHorizontal)
             Next
             For yy As Integer = EndPoint.Y To StartPoint.Y
-                map(EndPoint.X, yy) = CByte(Blocks.Gray)
+                map(EndPoint.X, yy) = CByte(Blocks.ElectricWireHorizontal)
             Next
         End If
     End Sub
     Public Function ByteToString(ByVal b As Byte) As String
         If b >= 4 And b <= 14 Then
-            Return "Straße"
+            Return "Street"
         ElseIf b = 15 Then
             Return "Grass"
-        ElseIf b >= 16 And b <= 17 Then
-            Return "Schiene"
+        ElseIf b >= 16 And b <= 20 Then
+            Return "Rail"
         ElseIf b = 22 Then
             Return "House"
         ElseIf b = 25 Then
             Return "Industry"
+        ElseIf b >= 30 And b <= 31 Then
+            Return "Electric"
         End If
         Return "Nothing"
     End Function
     Public Function IndexToString(ByVal index As Integer) As String
         If index = 0 Then
-            Return "Straße"
+            Return "Street"
         ElseIf index = 1 Then
-            Return "Schiene"
+            Return "Rail"
         ElseIf index = 2 Then
-            Return "Haus"
+            Return "House"
         ElseIf index = 3 Then
             Return "Industry"
         ElseIf index = 4 Then
             Return "Help"
+        ElseIf index = 5 Then
+            Return "Electric"
         End If
         Return "EmptySlot"
     End Function
@@ -467,6 +485,13 @@ Public Class Main
             Case 4
                 Me.Text = "Checking!"
                 economy.checkForBuildings(New Point(xx, yy))
+            Case 5
+                If map(xx, yy) = CByte(Blocks.Grass) And economy.money >= economy.cost_electricwire Then
+                    map(xx, yy) = CByte(Blocks.ElectricWireHorizontal)
+                    economy.BuildElectricWire()
+
+                End If
+                CheckWires(xx, yy)
         End Select
 
 
@@ -564,6 +589,16 @@ Public Class Main
         If map(xx - 1, yy) = Blocks.RailHorizontal And map(xx + 1, yy) = Blocks.RailHorizontal And map(xx, yy - 1) = Blocks.RailVertical And map(xx, yy + 1) = Blocks.RailVertical Then
             map(xx, yy) = CByte(Blocks.RailRailIntersection)
             Me.Text = "CheckRails"
+        End If
+    End Sub
+    Public Sub CheckWires(ByVal xx As Integer, ByVal yy As Integer)
+        If map(xx, yy - 1) = Blocks.ElectricWireHorizontal Or map(xx, yy - 1) = Blocks.ElectricWireVertical Then
+            map(xx, yy - 1) = CByte(Blocks.ElectricWireVertical)
+            map(xx, yy) = CByte(Blocks.ElectricWireVertical)
+        End If
+        If map(xx, yy + 1) = Blocks.ElectricWireHorizontal Or map(xx, yy + 1) = Blocks.ElectricWireVertical Then
+            map(xx, yy + 1) = CByte(Blocks.ElectricWireVertical)
+            map(xx, yy) = CByte(Blocks.ElectricWireVertical)
         End If
     End Sub
 

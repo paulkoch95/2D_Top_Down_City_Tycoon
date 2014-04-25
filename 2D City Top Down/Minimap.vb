@@ -9,6 +9,8 @@
                         .FillRectangle(Brushes.Blue, New Rectangle(x, y, 1, 1))
                     ElseIf map(x, y) >= 16 And map(x, y) <= 17 Then
                         .FillRectangle(Brushes.Brown, New Rectangle(x, y, 1, 1))
+                    ElseIf map(x, y) >= 30 And map(x, y) <= 31 Then
+                        .FillRectangle(Brushes.Yellow, New Rectangle(x, y, 1, 1))
                     End If
                     .DrawRectangle(Pens.Black, New Rectangle(Main.xOffset, Main.yOffset, Main.widthX - 1, Main.heightY - 1))
 
