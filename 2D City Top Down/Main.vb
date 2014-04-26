@@ -21,7 +21,7 @@ Public Class Main
     Public economy As Economy = New Economy
     Public minMap As New Minimap
     Public yearCylce As New YearCycle
-
+    Public sceneManager As New SceneManagement
 
 
     Public Enum Blocks
@@ -68,166 +68,176 @@ Public Class Main
         setup()
         'readimage()
         Me.DoubleBuffered = True
+        sceneManager.setMainMenue()
         'InterpolateBetweenTwoPoints(New Point(5, 5), New Point(2, 2))
     End Sub
     Public Sub render(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
-        e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.HighSpeed
+        'e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.HighSpeed
+        UI.setup(e.Graphics)
+        If sceneManager.mainMenue = True Then
+            UI.drawMainMenue()
+        ElseIf sceneManager.game = True Then
+           
+            For x As Integer = xOffset To xOffset + widthX - 1
+                For y As Integer = yOffset To yOffset + heightY - 1
+                    If map(x, y) = Blocks.Red Then
+                        With e.Graphics
+                            .FillRectangle(Brushes.Red, New Rectangle(x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), tileSize, tileSize))
+                        End With
+                    End If
+                    If map(x, y) = Blocks.Blue Then
+                        With e.Graphics
+                            .FillRectangle(Brushes.Blue, New Rectangle(x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), tileSize, tileSize))
+                        End With
+                    End If
+                    If map(x, y) = Blocks.Black Then
+                        With e.Graphics
+                            .FillRectangle(Brushes.Black, New Rectangle(x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), tileSize, tileSize))
+                        End With
+                    End If
+                    If map(x, y) = Blocks.Gray Then
+                        With e.Graphics
+                            .FillRectangle(Brushes.Gray, New Rectangle(x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), tileSize, tileSize))
+                        End With
+                    End If
+                    'Ab hier Straßen und Kurven----------------
+                    If map(x, y) = Blocks.StreetVertical Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(0, 0, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
+                    If map(x, y) = Blocks.StreetHorizontal Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(32, 0, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
 
-        For x As Integer = xOffset To xOffset + widthX - 1
-            For y As Integer = yOffset To yOffset + heightY - 1
-                If map(x, y) = Blocks.Red Then
-                    With e.Graphics
-                        .FillRectangle(Brushes.Red, New Rectangle(x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), tileSize, tileSize))
-                    End With
-                End If
-                If map(x, y) = Blocks.Blue Then
-                    With e.Graphics
-                        .FillRectangle(Brushes.Blue, New Rectangle(x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), tileSize, tileSize))
-                    End With
-                End If
-                If map(x, y) = Blocks.Black Then
-                    With e.Graphics
-                        .FillRectangle(Brushes.Black, New Rectangle(x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), tileSize, tileSize))
-                    End With
-                End If
-                If map(x, y) = Blocks.Gray Then
-                    With e.Graphics
-                        .FillRectangle(Brushes.Gray, New Rectangle(x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), tileSize, tileSize))
-                    End With
-                End If
-                'Ab hier Straßen und Kurven----------------
-                If map(x, y) = Blocks.StreetVertical Then
-                    With e.Graphics
-                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(0, 0, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
-                    End With
-                End If
-                If map(x, y) = Blocks.StreetHorizontal Then
-                    With e.Graphics
-                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(32, 0, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
-                    End With
-                End If
+                    If map(x, y) = Blocks.StreetUpRight Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(2 * tileSize, 0, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
+                    If map(x, y) = Blocks.StreetUpLeft Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(3 * tileSize, 0, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
+                    If map(x, y) = Blocks.StreetDownRight Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(4 * tileSize, 0, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
+                    If map(x, y) = Blocks.StreetDownLeft Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(5 * tileSize, 0, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
+                    'Ab hier Kreuzungen------------
+                    If map(x, y) = Blocks.IntersectionLeft Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(6 * tileSize, 0, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
+                    If map(x, y) = Blocks.IntersectionDown Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(7 * tileSize, 0, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
+                    If map(x, y) = Blocks.IntersectionRight Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(8 * tileSize, 0, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
+                    If map(x, y) = Blocks.IntersectionUp Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(9 * tileSize, 0, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
+                    If map(x, y) = Blocks.Intersection Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(10 * tileSize, 0, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
 
-                If map(x, y) = Blocks.StreetUpRight Then
-                    With e.Graphics
-                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(2 * tileSize, 0, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
-                    End With
-                End If
-                If map(x, y) = Blocks.StreetUpLeft Then
-                    With e.Graphics
-                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(3 * tileSize, 0, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
-                    End With
-                End If
-                If map(x, y) = Blocks.StreetDownRight Then
-                    With e.Graphics
-                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(4 * tileSize, 0, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
-                    End With
-                End If
-                If map(x, y) = Blocks.StreetDownLeft Then
-                    With e.Graphics
-                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(5 * tileSize, 0, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
-                    End With
-                End If
-                'Ab hier Kreuzungen------------
-                If map(x, y) = Blocks.IntersectionLeft Then
-                    With e.Graphics
-                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(6 * tileSize, 0, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
-                    End With
-                End If
-                If map(x, y) = Blocks.IntersectionDown Then
-                    With e.Graphics
-                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(7 * tileSize, 0, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
-                    End With
-                End If
-                If map(x, y) = Blocks.IntersectionRight Then
-                    With e.Graphics
-                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(8 * tileSize, 0, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
-                    End With
-                End If
-                If map(x, y) = Blocks.IntersectionUp Then
-                    With e.Graphics
-                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(9 * tileSize, 0, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
-                    End With
-                End If
-                If map(x, y) = Blocks.Intersection Then
-                    With e.Graphics
-                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(10 * tileSize, 0, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
-                    End With
-                End If
+                    If map(x, y) = Blocks.Grass Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(0, 1 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
 
-                If map(x, y) = Blocks.Grass Then
-                    With e.Graphics
-                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(0, 1 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
 
-                    End With
-                End If
+                    If map(x, y) = Blocks.RailHorizontal Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(0, 2 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
 
-                If map(x, y) = Blocks.RailHorizontal Then
-                    With e.Graphics
-                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(0, 2 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
+                    If map(x, y) = Blocks.RailVertical Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(1 * tileSize, 2 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
 
-                    End With
-                End If
-                If map(x, y) = Blocks.RailVertical Then
-                    With e.Graphics
-                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(1 * tileSize, 2 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
+                    If map(x, y) = Blocks.House Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(0, 4 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
+                    If map(x, y) = Blocks.Industry Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(0, 5 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
+                    If map(x, y) = Blocks.RailIntersectionOne Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(2 * tileSize, 2 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
+                    If map(x, y) = Blocks.RailIntersectionTwo Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(3 * tileSize, 2 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
+                    If map(x, y) = Blocks.RailRailIntersection Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(4 * tileSize, 2 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
+                    If map(x, y) = Blocks.ElectricWireHorizontal Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(0 * tileSize, 6 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
+                    If map(x, y) = Blocks.ElectricWireVertical Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(1 * tileSize, 6 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
 
-                    End With
-                End If
-                If map(x, y) = Blocks.House Then
-                    With e.Graphics
-                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(0, 4 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
-                    End With
-                End If
-                If map(x, y) = Blocks.Industry Then
-                    With e.Graphics
-                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(0, 5 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
-                    End With
-                End If
-                If map(x, y) = Blocks.RailIntersectionOne Then
-                    With e.Graphics
-                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(2 * tileSize, 2 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
-                    End With
-                End If
-                If map(x, y) = Blocks.RailIntersectionTwo Then
-                    With e.Graphics
-                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(3 * tileSize, 2 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
-                    End With
-                End If
-                If map(x, y) = Blocks.RailRailIntersection Then
-                    With e.Graphics
-                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(4 * tileSize, 2 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
-                    End With
-                End If
-                If map(x, y) = Blocks.ElectricWireHorizontal Then
-                    With e.Graphics
-                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(0 * tileSize, 6 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
-                    End With
-                End If
-                If map(x, y) = Blocks.ElectricWireVertical Then
-                    With e.Graphics
-                        .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(1 * tileSize, 6 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
-                    End With
-                End If
-
+                Next
             Next
-        Next
-        ' e.Graphics.DrawRectangles(Pens.Blue, traffic.cars.ToArray)
+            ' e.Graphics.DrawRectangles(Pens.Blue, traffic.cars.ToArray)
 
-        With e.Graphics
-            Select Case map(mousePos.X, mousePos.Y)
-                Case 15
-                    .FillRectangle(New SolidBrush(Color.FromArgb(100, 0, 255, 0)), New Rectangle(mousePos.X * tileSize, mousePos.Y * tileSize, tileSize, tileSize))
-                Case Is <> 15
-                    .FillRectangle(New SolidBrush(Color.FromArgb(100, 255, 0, 0)), New Rectangle(mousePos.X * tileSize, mousePos.Y * tileSize, tileSize, tileSize))
-            End Select
+            With e.Graphics
+                Select Case map(mousePos.X, mousePos.Y)
+                    Case 15
+                        .FillRectangle(New SolidBrush(Color.FromArgb(100, 0, 255, 0)), New Rectangle(mousePos.X * tileSize, mousePos.Y * tileSize, tileSize, tileSize))
+                    Case Is <> 15
+                        .FillRectangle(New SolidBrush(Color.FromArgb(100, 255, 0, 0)), New Rectangle(mousePos.X * tileSize, mousePos.Y * tileSize, tileSize, tileSize))
+                End Select
 
-        End With
-        minMap.DrawMiniMap(e.Graphics, map)
-        UI.draw(e.Graphics, New Point(10, 640), selectedIndex, tileSize)
-        'For Each n In notes
-        'n.draw(e.Graphics)
-        'n.evaluate()
-        'Next
+            End With
+            minMap.DrawMiniMap(e.Graphics, map)
+            UI.drawGame(e.Graphics, New Point(10, 640), selectedIndex, tileSize)
+            'For Each n In notes
+            'n.draw(e.Graphics)
+            'n.evaluate()
+            'Next
+            If sceneManager.pauseMenue = True Then
+                UI.drawPauseMenue()
+            End If
+        End If
+        
 
     End Sub
 
@@ -238,8 +248,11 @@ Public Class Main
         'traffic.TrafficFlow()
     End Sub
     Private Sub EconomyEvaluation_Tick(sender As Object, e As EventArgs) Handles EconomyEvaluation.Tick
-        economy.evaluate()
-        yearCylce.evaluate()
+        If sceneManager.pauseMenue = False Then
+            economy.evaluate()
+            yearCylce.evaluate()
+        End If
+        
         'Me.Text = "Year: " + yearCylce.year.ToString + " |Day: " + yearCylce.day.ToString
     End Sub
     Public Function MousePointToMapPoint(ByVal mousePoint As Point) As Point
@@ -322,42 +335,50 @@ Public Class Main
         Return "EmptySlot"
     End Function
     Private Sub SelectIndex(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles MyBase.MouseWheel
-        If e.Delta > 0 Then
-            selectedIndex += 1
-            If selectedIndex >= 9 Then
-                selectedIndex = 0
-            End If
-            Me.Invalidate()
+        If sceneManager.pauseMenue = False Then
+            If e.Delta > 0 Then
+                selectedIndex += 1
+                If selectedIndex >= 9 Then
+                    selectedIndex = 0
+                End If
+                Me.Invalidate()
 
-        ElseIf e.Delta < 0 Then
-            selectedIndex -= 1
-            If selectedIndex <= -1 Then
-                selectedIndex = 8
+            ElseIf e.Delta < 0 Then
+                selectedIndex -= 1
+                If selectedIndex <= -1 Then
+                    selectedIndex = 8
+                End If
+                Me.Invalidate()
             End If
-            Me.Invalidate()
         End If
+        
     End Sub
     Public Sub MouseClicking(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseClick
         'readimage()
-        If e.Button = Windows.Forms.MouseButtons.Left Then
-            BuildBlock(e.X, e.Y)
-        ElseIf e.Button = Windows.Forms.MouseButtons.Right Then
-            RemoveBlock(e.X, e.Y)
+        If sceneManager.pauseMenue = False Then
+            If e.Button = Windows.Forms.MouseButtons.Left Then
+                BuildBlock(e.X, e.Y)
+            ElseIf e.Button = Windows.Forms.MouseButtons.Right Then
+                RemoveBlock(e.X, e.Y)
+            End If
         End If
+        
         'Me.Text = GetBrick(e.X, e.Y).ToString
         Me.Invalidate()
 
 
     End Sub
     Public Sub MouseMoving(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseMove
-
-        mousePos.X = Convert.ToInt32(Math.Floor(e.X / tileSize))
-        mousePos.Y = Convert.ToInt32(Math.Floor(e.Y / tileSize))
-        Dim rectSize As Int16 = 9 'The invalidated Rect around Mouse. Only odd values! The bigger, the less artifacts, but worse performance.
-        Me.Invalidate(New Rectangle(CInt(mousePos.X * tileSize - tileSize * Math.Floor(rectSize / 2)), CInt(mousePos.Y * tileSize - tileSize * Math.Floor(rectSize / 2)), tileSize * rectSize, tileSize * rectSize))
-        'Me.Text = Convert.ToString(GetBrick(mousePos.X, mousePos.Y))
-        'Me.Text = Convert.ToString(MousePointToMapPoint(New Point(e.X, e.Y)))
-        'InterpolateBetweenTwoPoints(New Point(10, 10), mousePos)
+        If sceneManager.pauseMenue = False Then
+            mousePos.X = Convert.ToInt32(Math.Floor(e.X / tileSize))
+            mousePos.Y = Convert.ToInt32(Math.Floor(e.Y / tileSize))
+            Dim rectSize As Int16 = 9 'The invalidated Rect around Mouse. Only odd values! The bigger, the less artifacts, but worse performance.
+            Me.Invalidate(New Rectangle(CInt(mousePos.X * tileSize - tileSize * Math.Floor(rectSize / 2)), CInt(mousePos.Y * tileSize - tileSize * Math.Floor(rectSize / 2)), tileSize * rectSize, tileSize * rectSize))
+            'Me.Text = Convert.ToString(GetBrick(mousePos.X, mousePos.Y))
+            'Me.Text = Convert.ToString(MousePointToMapPoint(New Point(e.X, e.Y)))
+            'InterpolateBetweenTwoPoints(New Point(10, 10), mousePos)
+        End If
+       
     End Sub
     Public Sub setup()
         For i As Integer = 0 To map.GetUpperBound(0)
@@ -368,37 +389,49 @@ Public Class Main
     End Sub
     Public Sub KeyboardControls(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         Me.Invalidate()
+        If sceneManager.pauseMenue = False Then
+            Select Case e.KeyCode
+                Case Keys.Up
+                    If yOffset - 1 <= 0 Then
+                        yOffset = 0
+                    Else
+                        yOffset -= 1
+                    End If
+                    'readimage()
+                Case Keys.Down
+
+                    If yOffset + 1 >= map.GetUpperBound(1) Then
+                        yOffset = map.GetUpperBound(1)
+                    Else
+                        yOffset += 1
+                    End If
+                    'readimage()
+                Case Keys.Left
+
+                    If xOffset - 1 <= 0 Then
+                        xOffset = 0
+                    Else
+                        xOffset -= 1
+                    End If
+                    'readimage()
+                Case Keys.Right
+                    If xOffset + 1 >= map.GetUpperBound(0) Then
+                        xOffset = map.GetUpperBound(0)
+                    Else
+                        xOffset += 1
+                    End If
+                    'readimage()
+
+            End Select
+        End If
         Select Case e.KeyCode
-            Case Keys.Up
-                If yOffset - 1 <= 0 Then
-                    yOffset = 0
-                Else
-                    yOffset -= 1
-                End If
-                'readimage()
-            Case Keys.Down
-
-                If yOffset + 1 >= map.GetUpperBound(1) Then
-                    yOffset = map.GetUpperBound(1)
-                Else
-                    yOffset += 1
-                End If
-                'readimage()
-            Case Keys.Left
-
-                If xOffset - 1 <= 0 Then
-                    xOffset = 0
-                Else
-                    xOffset -= 1
-                End If
-                'readimage()
-            Case Keys.Right
-                If xOffset + 1 >= map.GetUpperBound(0) Then
-                    xOffset = map.GetUpperBound(0)
-                Else
-                    xOffset += 1
-                End If
-                'readimage()
+            Case Keys.M
+                sceneManager.setMainMenue()
+            Case Keys.G
+                sceneManager.setGame()
+            Case Keys.P
+                sceneManager.setPauseMenue()
+                Me.Text = "Puase"
         End Select
         UI.Control(e)
     End Sub

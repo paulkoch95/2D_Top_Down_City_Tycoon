@@ -80,7 +80,7 @@
       <DependentUpon>Main.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="IngameUI.vb" />
+    <Compile Include="UI\IngameUI.vb" />
     <Compile Include="Minimap.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -99,6 +99,7 @@
     </Compile>
     <Compile Include="Notification.vb" />
     <Compile Include="Traffic.vb" />
+    <Compile Include="UI\SceneManagement.vb" />
     <Compile Include="YearCycle.vb" />
   </ItemGroup>
   <ItemGroup>
