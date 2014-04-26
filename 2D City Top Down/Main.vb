@@ -6,7 +6,6 @@ Public Class Main
     Public widthX, heightY As Integer
     Public xOffset, yOffset As Integer
     Public traffic As New Traffic
-    Public perlin As Bitmap = My.Resources.Perlin
     Public tilemap As Bitmap = My.Resources.tilemap
     Public cars As New List(Of Rectangle)
     Public carspeeds As New List(Of Point)
@@ -69,9 +68,11 @@ Public Class Main
         setup()
         'readimage()
         Me.DoubleBuffered = True
-        InterpolateBetweenTwoPoints(New Point(5, 5), New Point(2, 2))
+        'InterpolateBetweenTwoPoints(New Point(5, 5), New Point(2, 2))
     End Sub
     Public Sub render(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
+        e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.HighSpeed
+
         For x As Integer = xOffset To xOffset + widthX - 1
             For y As Integer = yOffset To yOffset + heightY - 1
                 If map(x, y) = Blocks.Red Then
@@ -241,35 +242,6 @@ Public Class Main
         yearCylce.evaluate()
         'Me.Text = "Year: " + yearCylce.year.ToString + " |Day: " + yearCylce.day.ToString
     End Sub
-    Public Sub readimage()
-        Dim sw As New Stopwatch
-        sw.Start()
-        For x As Integer = 0 To perlin.Width - 1
-            For y As Integer = 0 To perlin.Height - 1
-                If GetPixel(x, y).R > 49 Then 'Das sind die Levels der Map, bzw die Intensität des Schwarzwertes. Je höher der Wert je weißer das Bild
-                    map(x, y) = Convert.ToByte(Blocks.Red)
-                End If
-                If GetPixel(x, y).R > 50 Then
-                    map(x, y) = Convert.ToByte(Blocks.Grass)
-                End If
-                If GetPixel(x, y).R > 100 Then
-                    map(x, y) = Convert.ToByte(Blocks.Black)
-                End If
-                If GetPixel(x, y).R > 128 Then
-                    map(x, y) = Convert.ToByte(Blocks.Gray)
-                End If
-                'If GetPixel(x, y) > 150 Then
-                '    map(x - xOffset, y - yOffset) = Convert.ToByte(Bloecke.Gray)
-                'End If
-
-            Next
-        Next
-        sw.Stop()
-        'MsgBox(sw.ElapsedMilliseconds)
-    End Sub
-    Public Function GetPixel(ByVal x As Integer, ByVal y As Integer) As Color
-        Return perlin.GetPixel(x, y)
-    End Function
     Public Function MousePointToMapPoint(ByVal mousePoint As Point) As Point
         Return New Point(Convert.ToInt16(Math.Floor((mousePoint.X + (xOffset * tileSize)) / tileSize)), Convert.ToInt16(Math.Floor((mousePoint.Y + (xOffset * tileSize)) / tileSize)))
     End Function
@@ -377,22 +349,8 @@ Public Class Main
 
 
     End Sub
-    Public Sub MouseWheelMoving(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseWheel
-        'Select Case e.Delta
-        '    Case Is < 0
-        '        tileSize -= 1
-        '    Case Is > 0
-        '        tileSize += 1
-
-        'End Select
-    End Sub
     Public Sub MouseMoving(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseMove
-        'Select Case MousePosition.X
-        '    Case Is < 2
-        '        xOffset -= 1
-        '    Case Is > Me.Width
-        '        xOffset += 1
-        'End Select
+
         mousePos.X = Convert.ToInt32(Math.Floor(e.X / tileSize))
         mousePos.Y = Convert.ToInt32(Math.Floor(e.Y / tileSize))
         Dim rectSize As Int16 = 9 'The invalidated Rect around Mouse. Only odd values! The bigger, the less artifacts, but worse performance.
@@ -405,11 +363,6 @@ Public Class Main
         For i As Integer = 0 To map.GetUpperBound(0)
             For y As Integer = 0 To map.GetUpperBound(1)
                 map(i, y) = CByte(Blocks.Grass)
-                'If i * d.Next(2, 20) > y + d.Next(2, 6) Then
-                '    map(i, y) = Convert.ToByte(Blocks.Blue)
-                'Else
-                '    map(i, y) = Convert.ToByte(Blocks.Red)
-                'End If
             Next
         Next
     End Sub
