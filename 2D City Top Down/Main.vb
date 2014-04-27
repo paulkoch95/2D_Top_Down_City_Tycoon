@@ -69,11 +69,12 @@ Public Class Main
         'readimage()
         Me.DoubleBuffered = True
         sceneManager.setMainMenue()
+        UI.setup()
         'InterpolateBetweenTwoPoints(New Point(5, 5), New Point(2, 2))
     End Sub
     Public Sub render(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
         'e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.HighSpeed
-        UI.setup(e.Graphics)
+        UI.gr = e.Graphics
         If sceneManager.mainMenue = True Then
             UI.drawMainMenue()
         ElseIf sceneManager.game = True Then
@@ -362,7 +363,11 @@ Public Class Main
                 RemoveBlock(e.X, e.Y)
             End If
         End If
-        
+        If UI.mouseClicked = False Then
+            UI.mouseClicked = True
+        Else
+            UI.mouseClicked = False
+        End If
         'Me.Text = GetBrick(e.X, e.Y).ToString
         Me.Invalidate()
 
@@ -378,7 +383,9 @@ Public Class Main
             'Me.Text = Convert.ToString(MousePointToMapPoint(New Point(e.X, e.Y)))
             'InterpolateBetweenTwoPoints(New Point(10, 10), mousePos)
         End If
-       
+        If sceneManager.mainMenue = True Then
+            UI.Mouse(e)
+        End If
     End Sub
     Public Sub setup()
         For i As Integer = 0 To map.GetUpperBound(0)
@@ -433,6 +440,7 @@ Public Class Main
                 sceneManager.setPauseMenue()
                 Me.Text = "Puase"
         End Select
+
         UI.Control(e)
     End Sub
 

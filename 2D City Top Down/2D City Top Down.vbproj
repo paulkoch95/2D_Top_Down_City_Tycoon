@@ -80,6 +80,7 @@
       <DependentUpon>Main.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="UI\Button.vb" />
     <Compile Include="UI\IngameUI.vb" />
     <Compile Include="Minimap.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -100,6 +101,7 @@
     <Compile Include="Notification.vb" />
     <Compile Include="Traffic.vb" />
     <Compile Include="UI\SceneManagement.vb" />
+    <Compile Include="UI\UIHelper.vb" />
     <Compile Include="YearCycle.vb" />
   </ItemGroup>
   <ItemGroup>
