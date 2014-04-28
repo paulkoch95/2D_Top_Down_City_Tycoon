@@ -4,12 +4,17 @@
     Public selectionWidth As Integer = 64
     Public helper As New UIHelper
     Public mainMenueSelectedIndex = 0
-    Public buttons As New List(Of Button)
+    Public mainbuttons As New List(Of Button)
+    Public pausebuttons As New List(Of Button)
     Public mouseClicked As Boolean = False
     Public Sub setup()
-        buttons.Add(New Button(New Rectangle(Main.Width / 2 - 50, 50, 150, 40), Brushes.White, "New Game"))
-        buttons.Add(New Button(New Rectangle(Main.Width / 2 - 50, 100, 150, 40), Brushes.White, "Options"))
-        buttons.Add(New Button(New Rectangle(Main.Width / 2 - 50, 150, 150, 40), Brushes.White, "Exit"))
+        mainbuttons.Add(New Button(New Rectangle(Main.Width / 2 - 50, 50, 150, 40), Brushes.White, "New Game"))
+        mainbuttons.Add(New Button(New Rectangle(Main.Width / 2 - 50, 100, 150, 40), Brushes.White, "Options"))
+        mainbuttons.Add(New Button(New Rectangle(Main.Width / 2 - 50, 150, 150, 40), Brushes.White, "Exit"))
+
+        pausebuttons.Add(New Button(New Rectangle(Main.Width / 2 - 50, 50, 150, 40), Brushes.White, "Resume"))
+        pausebuttons.Add(New Button(New Rectangle(Main.Width / 2 - 50, 100, 150, 40), Brushes.White, "Load/Save"))
+        pausebuttons.Add(New Button(New Rectangle(Main.Width / 2 - 50, 150, 150, 40), Brushes.White, "Back to Menu"))
     End Sub
     Public Sub drawGame(ByVal g As Graphics, ByVal start As Point, ByVal index As Integer, ByVal tileSize As Integer)
 
@@ -35,38 +40,63 @@
         With gr
             .FillRectangle(Brushes.LightGray, New Rectangle(0, 0, Main.Width, Main.Height))
             .DrawString("Main Menue", New System.Drawing.Font("Segoe UI Light", 24), Brushes.White, New Point(Main.Width / 2 - 50, 10))
-            For Each b As Button In buttons
+            .DrawString("Developed by Paul Koch and all Github contributors! | Version: " + Main.ProductVersion.ToString, New System.Drawing.Font("Segoe UI Light", 6), Brushes.Black, New Point(Main.Width - 300, 0))
+            For Each b As Button In mainbuttons
                 b.draw(gr)
             Next
         End With
     End Sub
     Public Sub drawPauseMenue()
+        mouseClicked = False
         With gr
             .FillRectangle(New SolidBrush(Color.FromArgb(90, 127, 127, 127)), New Rectangle(0, 0, Main.Width, Main.Height))
             .DrawString("Pause Menue", New System.Drawing.Font("Segoe UI Light", 24), Brushes.White, New Point(Main.Width / 2 - 50, 10))
-            
+            For Each b As Button In pausebuttons
+                b.draw(gr)
+            Next
         End With
     End Sub
     Public Sub Mouse(ByVal e As System.Windows.Forms.MouseEventArgs)
 
         'MsgBox(buttons.Count.ToString)
-        If helper.ButtonHovered(e.Location, buttons.First.rect) Then
-            buttons(0).color = Brushes.DarkGray
-            If mouseClicked = True Then
-                Main.sceneManager.setGame()
+        If Main.sceneManager.mainMenue = True Then 'Haupt Menü BUtton Hovering
+            If helper.ButtonHovered(e.Location, mainbuttons.First.rect) Then
+                mainbuttons(0).color = Brushes.DarkGray
+                If mouseClicked = True Then
+                    Main.sceneManager.setGame()
+                End If
+            ElseIf helper.ButtonHovered(e.Location, mainbuttons(1).rect) Then
+                mainbuttons(1).color = Brushes.DarkGray
+            ElseIf helper.ButtonHovered(e.Location, mainbuttons(2).rect) Then
+                mainbuttons(2).color = Brushes.DarkGray
+                If mouseClicked = True Then
+                    Application.Exit()
+                End If
+            Else
+                mainbuttons(0).color = Brushes.White
+                mainbuttons(1).color = Brushes.White
+                mainbuttons(2).color = Brushes.White
             End If
-        ElseIf helper.ButtonHovered(e.Location, buttons(1).rect) Then
-            buttons(1).color = Brushes.DarkGray
-        ElseIf helper.ButtonHovered(e.Location, buttons(2).rect) Then
-            buttons(2).color = Brushes.DarkGray
-            If mouseClicked = True Then
-                Application.Exit()
+        ElseIf Main.sceneManager.pauseMenue = True Then 'Pause Menü BUtton Hovering
+            If helper.ButtonHovered(e.Location, pausebuttons(0).rect) Then
+                pausebuttons(0).color = Brushes.DarkGray
+                If mouseClicked = True Then
+                    Main.sceneManager.setGame()
+                End If
+            ElseIf helper.ButtonHovered(e.Location, pausebuttons(1).rect) Then
+                pausebuttons(1).color = Brushes.DarkGray
+            ElseIf helper.ButtonHovered(e.Location, pausebuttons(2).rect) Then
+                pausebuttons(2).color = Brushes.DarkGray
+                If mouseClicked = True Then
+                    Main.sceneManager.setMainMenue()
+                End If
+            Else
+                pausebuttons(0).color = Brushes.White
+                pausebuttons(1).color = Brushes.White
+                pausebuttons(2).color = Brushes.White
             End If
-        Else
-            buttons(0).color = Brushes.White
-            buttons(1).color = Brushes.White
-            buttons(2).color = Brushes.White
         End If
+
 
         Main.Text = mouseClicked.ToString
     End Sub

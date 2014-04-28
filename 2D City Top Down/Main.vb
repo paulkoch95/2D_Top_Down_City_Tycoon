@@ -249,7 +249,7 @@ Public Class Main
         'traffic.TrafficFlow()
     End Sub
     Private Sub EconomyEvaluation_Tick(sender As Object, e As EventArgs) Handles EconomyEvaluation.Tick
-        If sceneManager.pauseMenue = False Then
+        If sceneManager.pauseMenue = False And sceneManager.mainMenue = False Then
             economy.evaluate()
             yearCylce.evaluate()
         End If
@@ -336,7 +336,7 @@ Public Class Main
         Return "EmptySlot"
     End Function
     Private Sub SelectIndex(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles MyBase.MouseWheel
-        If sceneManager.pauseMenue = False Then
+        If sceneManager.pauseMenue = False And sceneManager.mainMenue = False Then
             If e.Delta > 0 Then
                 selectedIndex += 1
                 If selectedIndex >= 9 Then
@@ -356,7 +356,7 @@ Public Class Main
     End Sub
     Public Sub MouseClicking(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseClick
         'readimage()
-        If sceneManager.pauseMenue = False Then
+        If sceneManager.pauseMenue = False And sceneManager.mainMenue = False Then
             If e.Button = Windows.Forms.MouseButtons.Left Then
                 BuildBlock(e.X, e.Y)
             ElseIf e.Button = Windows.Forms.MouseButtons.Right Then
@@ -374,7 +374,7 @@ Public Class Main
 
     End Sub
     Public Sub MouseMoving(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseMove
-        If sceneManager.pauseMenue = False Then
+        If sceneManager.pauseMenue = False And sceneManager.mainMenue = False Then
             mousePos.X = Convert.ToInt32(Math.Floor(e.X / tileSize))
             mousePos.Y = Convert.ToInt32(Math.Floor(e.Y / tileSize))
             Dim rectSize As Int16 = 9 'The invalidated Rect around Mouse. Only odd values! The bigger, the less artifacts, but worse performance.
@@ -383,7 +383,7 @@ Public Class Main
             'Me.Text = Convert.ToString(MousePointToMapPoint(New Point(e.X, e.Y)))
             'InterpolateBetweenTwoPoints(New Point(10, 10), mousePos)
         End If
-        If sceneManager.mainMenue = True Then
+        If sceneManager.mainMenue = True Or sceneManager.pauseMenue = True Then
             UI.Mouse(e)
         End If
     End Sub
@@ -396,7 +396,7 @@ Public Class Main
     End Sub
     Public Sub KeyboardControls(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         Me.Invalidate()
-        If sceneManager.pauseMenue = False Then
+        If sceneManager.pauseMenue = False And sceneManager.mainMenue = False Then
             Select Case e.KeyCode
                 Case Keys.Up
                     If yOffset - 1 <= 0 Then
@@ -436,7 +436,7 @@ Public Class Main
                 sceneManager.setMainMenue()
             Case Keys.G
                 sceneManager.setGame()
-            Case Keys.P
+            Case Keys.Escape
                 sceneManager.setPauseMenue()
                 Me.Text = "Puase"
         End Select
