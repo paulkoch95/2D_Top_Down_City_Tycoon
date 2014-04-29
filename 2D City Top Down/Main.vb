@@ -70,15 +70,18 @@ Public Class Main
         Me.DoubleBuffered = True
         sceneManager.setMainMenue()
         UI.setup()
+        UI.debugCore.points.Add(New Point(0, 80))
+        UI.debugCore.points.Add(New Point(0, 80))
         'InterpolateBetweenTwoPoints(New Point(5, 5), New Point(2, 2))
     End Sub
     Public Sub render(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
+        
         'e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.HighSpeed
         UI.gr = e.Graphics
         If sceneManager.mainMenue = True Then
             UI.drawMainMenue()
         ElseIf sceneManager.game = True Then
-           
+
             For x As Integer = xOffset To xOffset + widthX - 1
                 For y As Integer = yOffset To yOffset + heightY - 1
                     If map(x, y) = Blocks.Red Then
@@ -238,8 +241,10 @@ Public Class Main
                 UI.drawPauseMenue()
             End If
         End If
-        
 
+        If UI.drawDebug Then
+            UI.debugCore.renderDebug(e.Graphics)
+        End If
     End Sub
 
     Private Sub GameLoop_Tick(sender As Object, e As EventArgs) Handles GameLoop.Tick
@@ -252,6 +257,8 @@ Public Class Main
         If sceneManager.pauseMenue = False And sceneManager.mainMenue = False Then
             economy.evaluate()
             yearCylce.evaluate()
+            UI.debugCore.evaluatePopulationGraph()
+            
         End If
         
         'Me.Text = "Year: " + yearCylce.year.ToString + " |Day: " + yearCylce.day.ToString

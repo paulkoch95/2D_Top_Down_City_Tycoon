@@ -7,6 +7,8 @@
     Public mainbuttons As New List(Of Button)
     Public pausebuttons As New List(Of Button)
     Public mouseClicked As Boolean = False
+    Public drawDebug As Boolean = True
+    Public debugCore As New DebugCore
     Public Sub setup()
         mainbuttons.Add(New Button(New Rectangle(Main.Width / 2 - 50, 50, 150, 40), Brushes.White, "New Game"))
         mainbuttons.Add(New Button(New Rectangle(Main.Width / 2 - 50, 100, 150, 40), Brushes.White, "Options"))
@@ -33,7 +35,7 @@
             .DrawImage(tileMap, start.X + 5 * selectionWidth, start.Y - selectionWidth, New Rectangle(11 * tileSize, 6 * tileSize, tileSize, tileSize), GraphicsUnit.Pixel)
             .DrawString("Money: " + Main.economy.money.ToString + " Population: " + Main.economy.population.ToString + " Datum: " + Main.yearCylce.yearString, New System.Drawing.Font("Segoe UI Light", 15), Brushes.Yellow, New Point(10, 10))
         End With
-
+        
     End Sub
     Public Sub drawMainMenue()
         mouseClicked = False
@@ -102,8 +104,12 @@
     End Sub
     Public Sub Control(ByVal e As System.Windows.Forms.KeyEventArgs)
         Select Case e.KeyCode
-            Case Keys.A
-                MsgBox("Hi")
+            Case Keys.D
+                If drawDebug Then
+                    drawDebug = False
+                Else
+                    drawDebug = True
+                End If
         End Select
     End Sub
 End Class
