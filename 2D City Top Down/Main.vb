@@ -14,6 +14,7 @@ Public Class Main
     Public d As New Random
     Public UI As New IngameUI
     Public selectedIndex As Integer
+    Public usedCoffees As Integer = 10
 
     Public notes As New List(Of Notification)
 
@@ -75,7 +76,6 @@ Public Class Main
         'InterpolateBetweenTwoPoints(New Point(5, 5), New Point(2, 2))
     End Sub
     Public Sub render(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
-        
         'e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.HighSpeed
         UI.gr = e.Graphics
         If sceneManager.mainMenue = True Then
@@ -363,13 +363,7 @@ Public Class Main
     End Sub
     Public Sub MouseClicking(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseClick
         'readimage()
-        If sceneManager.pauseMenue = False And sceneManager.mainMenue = False Then
-            If e.Button = Windows.Forms.MouseButtons.Left Then
-                BuildBlock(e.X, e.Y)
-            ElseIf e.Button = Windows.Forms.MouseButtons.Right Then
-                RemoveBlock(e.X, e.Y)
-            End If
-        End If
+        
         If UI.mouseClicked = False Then
             UI.mouseClicked = True
         Else
@@ -392,6 +386,13 @@ Public Class Main
         End If
         If sceneManager.mainMenue = True Or sceneManager.pauseMenue = True Then
             UI.Mouse(e)
+        End If
+        If sceneManager.pauseMenue = False And sceneManager.mainMenue = False Then
+            If e.Button = Windows.Forms.MouseButtons.Left Then
+                BuildBlock(e.X, e.Y)
+            ElseIf e.Button = Windows.Forms.MouseButtons.Right Then
+                RemoveBlock(e.X, e.Y)
+            End If
         End If
     End Sub
     Public Sub setup()

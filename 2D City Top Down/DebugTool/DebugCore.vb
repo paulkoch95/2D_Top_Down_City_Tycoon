@@ -8,6 +8,7 @@
             .DrawString("FieldCount: " + Main.map.Length.ToString, New System.Drawing.Font("Segoe UI Light", 10), textcol, New Point(0, 0))
             .DrawString("xOffset/yOffset" + Main.xOffset.ToString + " | " + Main.yOffset.ToString, New System.Drawing.Font("Segoe UI Light", 10), textcol, New Point(0, 20))
             .DrawString("SceneManager: [main Menue][Pause Menue][Game]" + "[" + Main.sceneManager.mainMenue.ToString + "]" + "[" + Main.sceneManager.pauseMenue.ToString + "]" + "[" + Main.sceneManager.game.ToString + "]", New System.Drawing.Font("Segoe UI Light", 10), textcol, New Point(0, 40))
+            .DrawString("Used Cups of Coffee: " + Main.usedCoffees.ToString, New System.Drawing.Font("Segoe UI Light", 10), textcol, New Point(0, 100))
             .DrawLines(Pens.Black, points.ToArray)
             .DrawString("Bevölkerungswachstum", New System.Drawing.Font("Segoe UI Light", 10), textcol, points.Last)
         End With
@@ -22,4 +23,5 @@
             year = 0
         End If
     End Sub
+
 End Class

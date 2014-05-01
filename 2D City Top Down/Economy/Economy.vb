@@ -15,8 +15,12 @@ Public Class Economy
     Public industry As New List(Of Industry)
 
     Public Sub init()
-        houses.Add(New House)
-        industry.Add(New Industry)
+        Dim d As New House
+        d.inhabitants = 0
+        houses.Add(d)
+        Dim i As New Industry
+        i.power = 0
+        industry.Add(i)
     End Sub
     Public Sub BuildStreet()
         money -= cost_street
