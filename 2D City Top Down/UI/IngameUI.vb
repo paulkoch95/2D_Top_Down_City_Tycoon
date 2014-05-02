@@ -1,6 +1,8 @@
 ﻿Public Class IngameUI
     Public gr As Graphics
     Public tileMap As Bitmap = My.Resources.tilemap
+    Public menu_bg As Image = My.Resources.menubg
+    Public money_bg As Image = My.Resources.text_360
     Public selectionWidth As Integer = 64
     Public helper As New UIHelper
     Public mainMenueSelectedIndex = 0
@@ -33,7 +35,8 @@
             .DrawImage(tileMap, start.X + 3 * selectionWidth, start.Y - selectionWidth, New Rectangle(11 * tileSize, 5 * tileSize, tileSize, tileSize), GraphicsUnit.Pixel)
             .DrawImage(tileMap, start.X + 4 * selectionWidth, start.Y - selectionWidth, New Rectangle(11 * tileSize, 1 * tileSize, tileSize, tileSize), GraphicsUnit.Pixel)
             .DrawImage(tileMap, start.X + 5 * selectionWidth, start.Y - selectionWidth, New Rectangle(11 * tileSize, 6 * tileSize, tileSize, tileSize), GraphicsUnit.Pixel)
-            .DrawString("Money: " + Main.economy.money.ToString + " Population: " + Main.economy.population.ToString + " Datum: " + Main.yearCylce.yearString, New System.Drawing.Font("Segoe UI Light", 15), Brushes.White, New Point(165, 10))
+            .DrawImageUnscaledAndClipped(money_bg, New Rectangle(120, 0, 360, 60))
+            .DrawString("Money: " + Main.economy.money.ToString + " Population: " + Main.economy.population.ToString + " Datum: " + Main.yearCylce.yearString, New System.Drawing.Font("Segoe UI Light", 12), Brushes.White, New Point(124, 10))
         End With
         
     End Sub
@@ -41,8 +44,9 @@
         mouseClicked = False
         With gr
             .FillRectangle(Brushes.LightGray, New Rectangle(0, 0, Main.Width, Main.Height))
+            .DrawImageUnscaledAndClipped(menu_bg, New Rectangle(50, 0, 400, 660))
             .DrawString("Main Menue", New System.Drawing.Font("Segoe UI Light", 24), Brushes.White, New Point(Main.Width / 2 - 50, 10))
-            .DrawString("Developed by Paul Koch and all Github contributors! | Version: " + Main.ProductVersion.ToString, New System.Drawing.Font("Segoe UI Light", 6), Brushes.Black, New Point(Main.Width - 300, 0))
+            .DrawString("Developed by Paul Koch and all Github contributors! | Some images are mady by Jannis Becker | Version: " + Main.ProductVersion.ToString, New System.Drawing.Font("Segoe UI Light", 6), Brushes.Black, New Point(Main.Width - 400, 0))
             For Each b As Button In mainbuttons
                 b.draw(gr)
             Next

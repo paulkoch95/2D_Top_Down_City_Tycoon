@@ -117,6 +117,7 @@
     </Compile>
     <Compile Include="Notification.vb" />
     <Compile Include="Traffic.vb" />
+    <Compile Include="UI\menu_bg.vb" />
     <Compile Include="UI\SceneManagement.vb" />
     <Compile Include="UI\UIHelper.vb" />
     <Compile Include="YearCycle.vb" />
@@ -175,6 +176,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\text 360.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\menu bg _.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

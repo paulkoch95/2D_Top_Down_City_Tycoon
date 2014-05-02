@@ -36,7 +36,7 @@ Partial Class Main
         'EconomyEvaluation
         '
         Me.EconomyEvaluation.Enabled = True
-        Me.EconomyEvaluation.Interval = 1000
+        Me.EconomyEvaluation.Interval = 10000
         '
         'Main
         '

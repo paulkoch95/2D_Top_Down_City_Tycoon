@@ -363,7 +363,13 @@ Public Class Main
     End Sub
     Public Sub MouseClicking(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseClick
         'readimage()
-        
+        If sceneManager.pauseMenue = False And sceneManager.mainMenue = False Then
+            If e.Button = Windows.Forms.MouseButtons.Left Then
+                BuildBlock(e.X, e.Y)
+            ElseIf e.Button = Windows.Forms.MouseButtons.Right Then
+                RemoveBlock(e.X, e.Y)
+            End If
+        End If
         If UI.mouseClicked = False Then
             UI.mouseClicked = True
         Else
