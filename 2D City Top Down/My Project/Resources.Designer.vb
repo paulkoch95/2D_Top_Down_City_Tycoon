@@ -93,9 +93,29 @@ Namespace My.Resources
         '''<summary>
         '''  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         '''</summary>
+        Friend ReadOnly Property tilebar() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("tilebar", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        '''</summary>
         Friend ReadOnly Property tilemap() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("tilemap", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property tileselection() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("tileselection", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

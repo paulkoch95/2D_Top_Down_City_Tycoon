@@ -11,7 +11,7 @@
             .DrawString("Used Cups of Coffee: " + Main.usedCoffees.ToString, New System.Drawing.Font("Segoe UI Light", 10), textcol, New Point(0, 100))
             .DrawLines(Pens.Black, points.ToArray)
             .DrawString("Bevölkerungswachstum", New System.Drawing.Font("Segoe UI Light", 10), textcol, points.Last)
-            .DrawString("MousePos: " + Main.MousePosition.ToString, New System.Drawing.Font("Segoe UI Light", 10), textcol, New Point(0, 160))
+            .DrawString("MousePos: " + (Main.MousePosition - Main.Bounds.Location).ToString, New System.Drawing.Font("Segoe UI Light", 10), textcol, New Point(0, 160))
 
         End With
     End Sub

@@ -3,6 +3,8 @@
     Public tileMap As Bitmap = My.Resources.tilemap
     Public menu_bg As Image = My.Resources.menubg
     Public money_bg As Image = My.Resources.text_360
+    Public selection_bg As Image = My.Resources.tilebar
+    Public selection_tile As Image = My.Resources.tileselection
     Public selectionWidth As Integer = 64
     Public helper As New UIHelper
     Public mainMenueSelectedIndex = 0
@@ -23,13 +25,12 @@
     Public Sub drawGame(ByVal g As Graphics, ByVal start As Point, ByVal index As Integer, ByVal tileSize As Integer)
 
         With gr
-            '.DrawString("Inventory", New System.Drawing.Font("Segoe UI Light", 12), Brushes.Blue, start)
+            .DrawImageUnscaledAndClipped(selection_bg, New Rectangle(0, start.Y - 80, 983, 175))
             .DrawImage(tileMap, start.X, start.Y + 22, New Rectangle(0, 3 * tileSize, 8 * tileSize, tileSize), GraphicsUnit.Pixel)
-            .DrawString(index.ToString, New System.Drawing.Font("Segoe UI Light", 12), Brushes.Blue, start)
-            .DrawRectangle(Pens.Black, New Rectangle(New Point(start.X + index * selectionWidth, start.Y - selectionWidth), New Size(selectionWidth, selectionWidth)))
+            .DrawImageUnscaledAndClipped(selection_tile, New Rectangle(start.X + index * selectionWidth - 3, start.Y - selectionWidth - 3, 70, 70))
             .DrawImage(tileMap, start.X, start.Y - selectionWidth, New Rectangle(11 * tileSize, 0, tileSize, tileSize), GraphicsUnit.Pixel)
-            .DrawString(Main.IndexToString(Main.selectedIndex), New System.Drawing.Font("Segoe UI Light", 12), Brushes.Black, New Point(start.X + Main.selectedIndex * selectionWidth, start.Y))
-            .DrawString("Cost: " + Main.economy.IndexToPrice(Main.selectedIndex).ToString, New System.Drawing.Font("Segoe UI Light", 12), Brushes.Black, New Point(start.X + Main.selectedIndex * selectionWidth, start.Y - selectionWidth / 2))
+            .DrawString(Main.IndexToString(Main.selectedIndex), New System.Drawing.Font("Segoe UI Light", 12), Brushes.White, New Point(start.X + Main.selectedIndex * selectionWidth, start.Y))
+            .DrawString("Cost: " + Main.economy.IndexToPrice(Main.selectedIndex).ToString, New System.Drawing.Font("Segoe UI Light", 10), Brushes.White, New Point(start.X + Main.selectedIndex * selectionWidth, start.Y - selectionWidth / 2))
             .DrawImage(tileMap, start.X + selectionWidth, start.Y - selectionWidth, New Rectangle(11 * tileSize, 2 * tileSize, tileSize, tileSize), GraphicsUnit.Pixel)
             .DrawImage(tileMap, start.X + 2 * selectionWidth, start.Y - selectionWidth, New Rectangle(11 * tileSize, 4 * tileSize, tileSize, tileSize), GraphicsUnit.Pixel)
             .DrawImage(tileMap, start.X + 3 * selectionWidth, start.Y - selectionWidth, New Rectangle(11 * tileSize, 5 * tileSize, tileSize, tileSize), GraphicsUnit.Pixel)

@@ -344,14 +344,14 @@ Public Class Main
     End Function
     Private Sub SelectIndex(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles MyBase.MouseWheel
         If sceneManager.pauseMenue = False And sceneManager.mainMenue = False Then
-            If e.Delta > 0 Then
+            If e.Delta < 0 Then
                 selectedIndex += 1
                 If selectedIndex >= 9 Then
                     selectedIndex = 0
                 End If
                 Me.Invalidate()
 
-            ElseIf e.Delta < 0 Then
+            ElseIf e.Delta > 0 Then
                 selectedIndex -= 1
                 If selectedIndex <= -1 Then
                     selectedIndex = 8
