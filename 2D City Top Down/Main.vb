@@ -242,15 +242,20 @@ Public Class Main
             Next
             ' e.Graphics.DrawRectangles(Pens.Blue, traffic.cars.ToArray)
 
-            With e.Graphics
-                Select Case map(mousePos.X, mousePos.Y)
-                    Case 15
-                        .FillRectangle(New SolidBrush(Color.FromArgb(100, 0, 255, 0)), New Rectangle(mousePos.X * tileSize, mousePos.Y * tileSize, tileSize, tileSize))
-                    Case Is <> 15
-                        .FillRectangle(New SolidBrush(Color.FromArgb(100, 255, 0, 0)), New Rectangle(mousePos.X * tileSize, mousePos.Y * tileSize, tileSize, tileSize))
-                End Select
+            If mousePos.X >= 0 And mousePos.X <= map.GetUpperBound(0) And mousePos.Y >= 0 And mousePos.Y <= map.GetUpperBound(1) Then
 
-            End With
+                With e.Graphics
+                    Select Case map(mousePos.X, mousePos.Y)
+                        Case 15
+                            .FillRectangle(New SolidBrush(Color.FromArgb(100, 0, 255, 0)), New Rectangle(mousePos.X * tileSize, mousePos.Y * tileSize, tileSize, tileSize))
+                        Case Is <> 15
+                            .FillRectangle(New SolidBrush(Color.FromArgb(100, 255, 0, 0)), New Rectangle(mousePos.X * tileSize, mousePos.Y * tileSize, tileSize, tileSize))
+                    End Select
+
+                End With
+
+            End If
+
             minMap.DrawMiniMap(e.Graphics, map)
             UI.drawGame(e.Graphics, New Point(10, 640), selectedIndex, tileSize)
             'For Each n In notes
