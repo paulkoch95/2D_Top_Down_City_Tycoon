@@ -66,7 +66,7 @@ Public Class Economy
             Return 0
         ElseIf b > 15 And b <= 20 Then
             Return cost_railway
-        ElseIf b = 22 Then
+        ElseIf b >= 21 And b <= 24 Then
             Return cost_house
         ElseIf b = 25 Then
             Return cost_industry

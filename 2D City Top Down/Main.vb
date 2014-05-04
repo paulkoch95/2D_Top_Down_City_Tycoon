@@ -14,7 +14,9 @@ Public Class Main
     Public d As New Random
     Public UI As New IngameUI
     Public selectedIndex As Integer
+    Public rand As New System.Random
     Public usedCoffees As Integer = 10
+
 
     Public notes As New List(Of Notification)
 
@@ -51,7 +53,10 @@ Public Class Main
         RailIntersectionTwo = 19
         RailRailIntersection = 20
 
-        House = 22
+        House1 = 21
+        House2 = 22
+        House3 = 23
+        House4 = 24
 
         Industry = 25
 
@@ -182,9 +187,24 @@ Public Class Main
 
                         End With
                     End If
-                    If map(x, y) = Blocks.House Then
+                    If map(x, y) = Blocks.House1 Then
                         With e.Graphics
                             .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(0, 4 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
+                    If map(x, y) = Blocks.House2 Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(1 * tileSize, 4 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
+                    If map(x, y) = Blocks.House3 Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(2 * tileSize, 4 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
+                        End With
+                    End If
+                    If map(x, y) = Blocks.House4 Then
+                        With e.Graphics
+                            .DrawImage(tilemap, x * tileSize - (xOffset * tileSize), y * tileSize - (yOffset * tileSize), New Rectangle(3 * tileSize, 4 * tileSize, tileSize, tileSize), Drawing.GraphicsUnit.Pixel)
                         End With
                     End If
                     If map(x, y) = Blocks.Industry Then
@@ -317,7 +337,7 @@ Public Class Main
             Return "Grass"
         ElseIf b >= 16 And b <= 20 Then
             Return "Rail"
-        ElseIf b = 22 Then
+        ElseIf b >= 21 And b <= 24 Then
             Return "House"
         ElseIf b = 25 Then
             Return "Industry"
@@ -412,6 +432,8 @@ Public Class Main
         Me.Invalidate()
         If sceneManager.pauseMenue = False And sceneManager.mainMenue = False Then
             Select Case e.KeyCode
+                Case Keys.N
+                    economy.money += 30000
                 Case Keys.Up
                     If yOffset - 1 <= 0 Then
                         yOffset = 0
@@ -482,7 +504,7 @@ Public Class Main
                 CheckRails(xx, yy)
             Case 2
                 If map(xx, yy) = CByte(Blocks.Grass) And economy.money >= economy.cost_house Then
-                    map(xx, yy) = CByte(Blocks.House)
+                    map(xx, yy) = CByte(rand.Next(21, 25))
                     economy.BuildHouse(New Point(xx, yy))
                 End If
             Case 3
