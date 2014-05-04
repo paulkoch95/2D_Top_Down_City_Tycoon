@@ -509,7 +509,7 @@ Public Class Main
                 CheckRails(xx, yy)
             Case 2
                 If map(xx, yy) = CByte(Blocks.Grass) And economy.money >= economy.cost_house Then
-                    map(xx, yy) = CByte(rand.Next(21, 25))
+                    map(xx, yy) = If(rand.Next(0, 10) <= 5, CByte(21), CByte(rand.Next(22, 25)))
                     economy.BuildHouse(New Point(xx, yy))
                 End If
             Case 3
