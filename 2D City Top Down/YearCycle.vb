@@ -12,6 +12,6 @@
             day = 0
             year += 1
         End If
-        yearString = "Day: " + day.ToString + " of Year: " + year.ToString
+        yearString = day.ToString + ". day in year " + year.ToString
     End Sub
 End Class

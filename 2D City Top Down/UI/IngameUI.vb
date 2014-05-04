@@ -2,7 +2,9 @@
     Public gr As Graphics
     Public tileMap As Bitmap = My.Resources.tilemap
     Public menu_bg As Image = My.Resources.menubg
-    Public money_bg As Image = My.Resources.text_360
+    Public money_bg As Image = My.Resources.money_
+    Public cal_bg As Image = My.Resources.cal_
+    Public pop_bg As Image = My.Resources.population_
     Public selection_bg As Image = My.Resources.tilebar
     Public selection_tile As Image = My.Resources.tileselection
     Public selectionWidth As Integer = 64
@@ -36,8 +38,15 @@
             .DrawImage(tileMap, start.X + 3 * selectionWidth, start.Y - selectionWidth, New Rectangle(11 * tileSize, 5 * tileSize, tileSize, tileSize), GraphicsUnit.Pixel)
             .DrawImage(tileMap, start.X + 4 * selectionWidth, start.Y - selectionWidth, New Rectangle(11 * tileSize, 1 * tileSize, tileSize, tileSize), GraphicsUnit.Pixel)
             .DrawImage(tileMap, start.X + 5 * selectionWidth, start.Y - selectionWidth, New Rectangle(11 * tileSize, 6 * tileSize, tileSize, tileSize), GraphicsUnit.Pixel)
-            .DrawImageUnscaledAndClipped(money_bg, New Rectangle(120, 0, 360, 60))
-            .DrawString("Money: " + Main.economy.money.ToString + " Population: " + Main.economy.population.ToString + " Datum: " + Main.yearCylce.yearString, New System.Drawing.Font("Segoe UI Light", 12), Brushes.White, New Point(124, 10))
+
+            .DrawImageUnscaledAndClipped(money_bg, New Rectangle(120, 0, 152, 60))
+            .DrawString(Main.economy.money.ToString, New System.Drawing.Font("Segoe UI Light", 12), Brushes.White, New Point(170, 16))
+
+            .DrawImageUnscaledAndClipped(pop_bg, New Rectangle(272, 0, 152, 60))
+            .DrawString(Main.economy.population.ToString, New System.Drawing.Font("Segoe UI Light", 12), Brushes.White, New Point(322, 16))
+
+            .DrawImageUnscaledAndClipped(cal_bg, New Rectangle(424, 0, 152, 60))
+            .DrawString(Main.yearCylce.yearString, New System.Drawing.Font("Segoe UI Light", 12), Brushes.White, New Point(474, 16))
         End With
         
     End Sub
