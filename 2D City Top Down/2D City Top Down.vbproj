@@ -186,6 +186,15 @@
   <ItemGroup>
     <None Include="Resources\tilebar.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cal_.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\money_.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\population_.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
