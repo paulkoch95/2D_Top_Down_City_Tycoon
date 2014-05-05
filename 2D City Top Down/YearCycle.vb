@@ -1,7 +1,8 @@
 ﻿Public Class YearCycle
     Public OneyearDuration As Integer = 360
+    Public months() As String = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}
     Public day As Integer = 0
-    Public year As Integer = 0
+    Public year As Integer = 1980
     Public yearString As String = ""
     Public Sub evaluate()
 
@@ -12,6 +13,6 @@
             day = 0
             year += 1
         End If
-        yearString = day.ToString + ". day in year " + year.ToString
+        yearString = (day Mod 30).ToString + ". " + months(Math.Floor(day / 30)) + " " + year.ToString("0000") 'TODO!
     End Sub
 End Class
