@@ -98,6 +98,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\Button.vb" />
+    <Compile Include="UI\CircleHighlighting.vb" />
     <Compile Include="UI\IngameUI.vb" />
     <Compile Include="Minimap.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

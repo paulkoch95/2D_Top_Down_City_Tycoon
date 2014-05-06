@@ -25,6 +25,7 @@ Public Class Main
     Public minMap As New Minimap
     Public yearCylce As New YearCycle
     Public sceneManager As New SceneManagement
+    Public circHigh As New CircleHighlighting
 
 
     Public Enum Blocks
@@ -79,6 +80,7 @@ Public Class Main
         UI.debugCore.points.Add(New Point(0, 80))
         UI.debugCore.points.Add(New Point(0, 80))
         'InterpolateBetweenTwoPoints(New Point(5, 5), New Point(2, 2))
+        'circHigh.fillCirc()
     End Sub
     Public Sub render(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
         'e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.HighSpeed
@@ -270,12 +272,12 @@ Public Class Main
         If UI.drawDebug Then
             UI.debugCore.renderDebug(e.Graphics)
         End If
+
     End Sub
 
     Private Sub GameLoop_Tick(sender As Object, e As EventArgs) Handles GameLoop.Tick
         'evaluateCars()
         Me.Invalidate()
-        
         'traffic.TrafficFlow()
     End Sub
     Private Sub EconomyEvaluation_Tick(sender As Object, e As EventArgs) Handles EconomyEvaluation.Tick
@@ -300,6 +302,9 @@ Public Class Main
     Public Function GetFromIndex(ByVal mapX As Integer, ByVal mapY As Integer) As Byte
         Return map(mapX, mapY)
     End Function
+    Public Sub SetBrick(ByVal mapx As Integer, ByVal mapy As Integer)
+        map(mapx, mapy) = CByte(Blocks.StreetDownLeft)
+    End Sub
     Public Sub InterpolateBetweenTwoPoints(ByVal StartPoint As Point, ByVal EndPoint As Point)
         If EndPoint.X > StartPoint.X And EndPoint.Y > StartPoint.Y Then
             For xx As Integer = StartPoint.X To EndPoint.X
@@ -402,7 +407,7 @@ Public Class Main
         End If
         'Me.Text = GetBrick(e.X, e.Y).ToString
         Me.Invalidate()
-
+        'circHigh.fillCirc()
 
     End Sub
     Public Sub MouseMoving(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseMove
