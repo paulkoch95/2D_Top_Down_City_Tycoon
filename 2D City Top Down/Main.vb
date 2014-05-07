@@ -272,7 +272,7 @@ Public Class Main
         If UI.drawDebug Then
             UI.debugCore.renderDebug(e.Graphics)
         End If
-
+        e.Graphics.FillRectangles(New SolidBrush(Color.FromArgb(100, 0, 255, 0)), circHigh.fillCirc(5, New Point(mousePos.X * tileSize, mousePos.Y * tileSize)).ToArray)
     End Sub
 
     Private Sub GameLoop_Tick(sender As Object, e As EventArgs) Handles GameLoop.Tick
@@ -389,7 +389,6 @@ Public Class Main
                 Me.Invalidate()
             End If
         End If
-        
     End Sub
     Public Sub MouseClicking(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseClick
         'readimage()
@@ -407,8 +406,8 @@ Public Class Main
         End If
         'Me.Text = GetBrick(e.X, e.Y).ToString
         Me.Invalidate()
-        'circHigh.fillCirc()
-
+        'circHigh.fillCirc(e.Delta)
+        
     End Sub
     Public Sub MouseMoving(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseMove
         If sceneManager.pauseMenue = False And sceneManager.mainMenue = False Then
