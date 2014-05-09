@@ -26,6 +26,7 @@ Public Class Main
     Public yearCylce As New YearCycle
     Public sceneManager As New SceneManagement
     Public circHigh As New CircleHighlighting
+    Public upgrader As New UpgradeTool
 
 
     Public Enum Blocks
@@ -260,6 +261,7 @@ Public Class Main
 
             minMap.DrawMiniMap(e.Graphics, map)
             UI.drawGame(e.Graphics, New Point(10, 640), selectedIndex, tileSize)
+            upgrader.drawToUI(e.Graphics)
             'For Each n In notes
             'n.draw(e.Graphics)
             'n.evaluate()
@@ -272,7 +274,7 @@ Public Class Main
         If UI.drawDebug Then
             UI.debugCore.renderDebug(e.Graphics)
         End If
-        e.Graphics.FillRectangles(New SolidBrush(Color.FromArgb(100, 0, 255, 0)), circHigh.fillCirc(5, New Point(mousePos.X * tileSize, mousePos.Y * tileSize)).ToArray)
+        'e.Graphics.FillRectangles(New SolidBrush(Color.FromArgb(100, 0, 255, 0)), circHigh.fillCirc(6, New Point(mousePos.X * tileSize, mousePos.Y * tileSize)).ToArray)
     End Sub
 
     Private Sub GameLoop_Tick(sender As Object, e As EventArgs) Handles GameLoop.Tick
@@ -369,6 +371,8 @@ Public Class Main
             Return "Help"
         ElseIf index = 5 Then
             Return "Electric"
+        ElseIf index = 6 Then
+            Return "Upgrade Tool"
         End If
         Return "EmptySlot"
     End Function
@@ -407,7 +411,6 @@ Public Class Main
         'Me.Text = GetBrick(e.X, e.Y).ToString
         Me.Invalidate()
         'circHigh.fillCirc(e.Delta)
-        
     End Sub
     Public Sub MouseMoving(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseMove
         If sceneManager.pauseMenue = False And sceneManager.mainMenue = False Then
@@ -428,6 +431,9 @@ Public Class Main
             ElseIf e.Button = Windows.Forms.MouseButtons.Right Then
                 RemoveBlock(e.X, e.Y)
             End If
+        End If
+        If upgrader.enable Then
+            upgrader.checkBtn(e)
         End If
     End Sub
     Public Sub setup()
@@ -531,6 +537,9 @@ Public Class Main
 
                 End If
                 CheckWires(xx, yy)
+            Case 6
+                upgrader.initiate(map(xx, yy), New Point(xx * tileSize, yy * tileSize))
+                upgrader.enable = True
         End Select
 
 

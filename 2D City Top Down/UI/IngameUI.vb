@@ -38,6 +38,7 @@
             .DrawImage(tileMap, start.X + 3 * selectionWidth, start.Y - selectionWidth, New Rectangle(11 * tileSize, 5 * tileSize, tileSize, tileSize), GraphicsUnit.Pixel)
             .DrawImage(tileMap, start.X + 4 * selectionWidth, start.Y - selectionWidth, New Rectangle(11 * tileSize, 1 * tileSize, tileSize, tileSize), GraphicsUnit.Pixel)
             .DrawImage(tileMap, start.X + 5 * selectionWidth, start.Y - selectionWidth, New Rectangle(11 * tileSize, 6 * tileSize, tileSize, tileSize), GraphicsUnit.Pixel)
+            .DrawImage(tileMap, start.X + 6 * selectionWidth, start.Y - selectionWidth, New Rectangle(13 * tileSize, 1 * tileSize, tileSize, tileSize), GraphicsUnit.Pixel)
 
             .DrawImageUnscaledAndClipped(money_bg, New Rectangle(120, 0, 152, 60))
             .DrawString(Main.economy.money.ToString, New System.Drawing.Font("Segoe UI Light", 12), Brushes.White, New Point(170, 16))

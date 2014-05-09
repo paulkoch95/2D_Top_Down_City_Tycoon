@@ -90,6 +90,7 @@
     <Compile Include="Economy\Economy.vb" />
     <Compile Include="Economy\House.vb" />
     <Compile Include="Economy\Industry.vb" />
+    <Compile Include="GameTools\UpgradeTool.vb" />
     <Compile Include="Main.vb">
       <SubType>Form</SubType>
     </Compile>
