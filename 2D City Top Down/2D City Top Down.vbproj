@@ -119,6 +119,7 @@
     </Compile>
     <Compile Include="Notification.vb" />
     <Compile Include="Traffic.vb" />
+    <Compile Include="UI\GraphicalButton.vb" />
     <Compile Include="UI\menu_bg.vb" />
     <Compile Include="UI\SceneManagement.vb" />
     <Compile Include="UI\UIHelper.vb" />

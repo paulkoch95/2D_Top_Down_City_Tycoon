@@ -399,6 +399,7 @@ Public Class Main
         If sceneManager.pauseMenue = False And sceneManager.mainMenue = False Then
             If e.Button = Windows.Forms.MouseButtons.Left Then
                 BuildBlock(e.X, e.Y)
+                
             ElseIf e.Button = Windows.Forms.MouseButtons.Right Then
                 RemoveBlock(e.X, e.Y)
             End If
@@ -411,6 +412,7 @@ Public Class Main
         'Me.Text = GetBrick(e.X, e.Y).ToString
         Me.Invalidate()
         'circHigh.fillCirc(e.Delta)
+        
     End Sub
     Public Sub MouseMoving(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseMove
         If sceneManager.pauseMenue = False And sceneManager.mainMenue = False Then
@@ -428,6 +430,7 @@ Public Class Main
         If sceneManager.pauseMenue = False And sceneManager.mainMenue = False Then
             If e.Button = Windows.Forms.MouseButtons.Left Then
                 BuildBlock(e.X, e.Y)
+                
             ElseIf e.Button = Windows.Forms.MouseButtons.Right Then
                 RemoveBlock(e.X, e.Y)
             End If
@@ -540,6 +543,27 @@ Public Class Main
             Case 6
                 upgrader.initiate(map(xx, yy), New Point(xx * tileSize, yy * tileSize))
                 upgrader.enable = True
+        End Select
+
+
+
+
+    End Sub
+    Public Sub BuildBlock(ByVal x As Integer, ByVal y As Integer, ByVal type As Byte)
+
+        Dim xx As Integer = Convert.ToInt16(Math.Floor((x + (xOffset * tileSize)) / tileSize))
+        Dim yy As Integer = Convert.ToInt16(Math.Floor((y + (yOffset * tileSize)) / tileSize))
+        If xx < 1 Or yy < 1 Or yy > 498 Or xx > 498 Then
+            Exit Sub
+        End If
+
+        Select Case type
+            Case 4 To 14
+                If map(xx, yy) <> type And economy.money >= economy.cost_street Then
+                    map(xx, yy) = CByte(type)
+                    economy.BuildStreet()
+
+                End If
         End Select
 
 

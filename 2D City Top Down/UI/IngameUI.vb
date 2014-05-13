@@ -25,7 +25,7 @@
         pausebuttons.Add(New Button(New Rectangle(Main.Width / 2 - 50, 150, 150, 40), Brushes.White, "Back to Menu"))
     End Sub
     Public Sub drawGame(ByVal g As Graphics, ByVal start As Point, ByVal index As Integer, ByVal tileSize As Integer)
-
+        mouseClicked = False
         With gr
             .DrawImageUnscaledAndClipped(selection_bg, New Rectangle(0, start.Y - 80, 983, 175))
             .DrawImage(tileMap, start.X, start.Y + 22, New Rectangle(0, 3 * tileSize, 8 * tileSize, tileSize), GraphicsUnit.Pixel)
