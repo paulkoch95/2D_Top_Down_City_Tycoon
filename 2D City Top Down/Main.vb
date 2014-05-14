@@ -372,7 +372,7 @@ Public Class Main
         ElseIf index = 5 Then
             Return "Electric"
         ElseIf index = 6 Then
-            Return "Upgrade Tool"
+            Return "Change Tool"
         End If
         Return "EmptySlot"
     End Function
@@ -412,7 +412,6 @@ Public Class Main
         'Me.Text = GetBrick(e.X, e.Y).ToString
         Me.Invalidate()
         'circHigh.fillCirc(e.Delta)
-        
     End Sub
     Public Sub MouseMoving(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseMove
         If sceneManager.pauseMenue = False And sceneManager.mainMenue = False Then
