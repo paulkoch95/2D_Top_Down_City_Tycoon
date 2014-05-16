@@ -540,7 +540,7 @@ Public Class Main
                 End If
                 CheckWires(xx, yy)
             Case 6
-                upgrader.initiate(map(xx, yy), New Point(xx * tileSize, yy * tileSize))
+                upgrader.initiate(map(xx, yy), New Point((xx * tileSize) - 128, (yy * tileSize) - 128))
                 upgrader.enable = True
         End Select
 
@@ -560,7 +560,6 @@ Public Class Main
             Case 4 To 14
                 If map(xx, yy) <> type And economy.money >= economy.cost_street Then
                     map(xx, yy) = CByte(type)
-                    economy.BuildStreet()
 
                 End If
         End Select

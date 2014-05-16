@@ -121,6 +121,12 @@
   <data name="cal_" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cal_.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="editbg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\editbg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="editselection" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\editselection.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="menubg" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\menu bg _.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
