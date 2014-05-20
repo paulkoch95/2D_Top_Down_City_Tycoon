@@ -57,8 +57,9 @@
         Select Case type
             Case 4 To 14
                 For Each btn As GraphicalButton In currentImageButtons
-                    updateHighlighter(e.Location)
+
                     If helper.ButtonHovered(e.Location, New Rectangle(btn.position, New Size(tilesize, tilesize))) Then
+                        updateHighlighter(e.Location)
                         Main.Text = Main.ByteToString(btn.id)
                         Main.BuildBlock(buildPos.X, buildPos.Y, btn.id)
                         'If Windows.Forms.MouseButtons.Middle = True Then 'lazy as fuck....using useless object instantiation from other another class...bad style...but hey...who cares?
