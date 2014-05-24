@@ -446,6 +446,10 @@ Public Class Main
                         xOffset += 1
                     End If
                     'readimage()
+                Case Keys.S
+                    Dim ls As New LoadSaveManager
+                    ls.WriteCsv(map, My.Application.Info.DirectoryPath)
+
 
             End Select
         End If

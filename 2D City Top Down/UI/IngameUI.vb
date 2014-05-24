@@ -41,13 +41,16 @@
             .DrawImage(tileMap, start.X + 6 * selectionWidth, start.Y - selectionWidth, New Rectangle(13 * tileSize, 1 * tileSize, tileSize, tileSize), GraphicsUnit.Pixel)
 
             .DrawImageUnscaledAndClipped(money_bg, New Rectangle(120, 0, 152, 60))
-            .DrawString(Main.economy.money.ToString, New System.Drawing.Font("Segoe UI Light", 12), Brushes.White, New Point(170, 16))
+            .DrawString("Money", New System.Drawing.Font("Segoe UI Light", 8), Brushes.DarkGray, New Point(170, 12))
+            .DrawString(Main.economy.money.ToString, New System.Drawing.Font("Segoe UI Light", 12), Brushes.White, New Point(170, 22))
 
             .DrawImageUnscaledAndClipped(pop_bg, New Rectangle(272, 0, 152, 60))
-            .DrawString(Main.economy.population.ToString, New System.Drawing.Font("Segoe UI Light", 12), Brushes.White, New Point(322, 16))
+            .DrawString("Population", New System.Drawing.Font("Segoe UI Light", 8), Brushes.DarkGray, New Point(322, 12))
+            .DrawString(Main.economy.population.ToString, New System.Drawing.Font("Segoe UI Light", 12), Brushes.White, New Point(322, 22))
 
             .DrawImageUnscaledAndClipped(cal_bg, New Rectangle(424, 0, 152, 60))
-            .DrawString(Main.yearCylce.yearString, New System.Drawing.Font("Segoe UI Light", 12), Brushes.White, New Point(474, 16))
+            .DrawString("Date", New System.Drawing.Font("Segoe UI Light", 8), Brushes.DarkGray, New Point(474, 12))
+            .DrawString(Main.yearCylce.yearString, New System.Drawing.Font("Segoe UI Light", 12), Brushes.White, New Point(474, 22))
         End With
         
     End Sub

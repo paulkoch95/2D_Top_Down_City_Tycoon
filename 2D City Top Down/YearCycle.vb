@@ -1,6 +1,6 @@
 ﻿Public Class YearCycle
     Public OneyearDuration As Integer = 360
-    Public months() As String = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}
+    Public months() As String = {"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"}
     Public day As Integer = 0
     Public year As Integer = 1980
     Public yearString As String = ""
