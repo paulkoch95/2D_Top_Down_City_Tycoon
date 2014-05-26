@@ -448,8 +448,11 @@ Public Class Main
                     'readimage()
                 Case Keys.S
                     Dim ls As New LoadSaveManager
-                    ls.WriteCsv(map, My.Application.Info.DirectoryPath)
-
+                    ls.Save()
+                    '.WriteCsv(map, My.Application.Info.DirectoryPath)
+                Case Keys.L
+                    Dim ls As New LoadSaveManager
+                    ls.Load()
 
             End Select
         End If

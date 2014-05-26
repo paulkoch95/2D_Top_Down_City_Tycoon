@@ -15,14 +15,16 @@
     Public mouseClicked As Boolean = False
     Public drawDebug As Boolean = True
     Public debugCore As New DebugCore
+    Public ls As New LoadSaveManager
     Public Sub setup()
         mainbuttons.Add(New Button(New Rectangle(Main.Width / 2 - 50, 50, 150, 40), Brushes.White, "New Game"))
         mainbuttons.Add(New Button(New Rectangle(Main.Width / 2 - 50, 100, 150, 40), Brushes.White, "Options"))
         mainbuttons.Add(New Button(New Rectangle(Main.Width / 2 - 50, 150, 150, 40), Brushes.White, "Exit"))
 
         pausebuttons.Add(New Button(New Rectangle(Main.Width / 2 - 50, 50, 150, 40), Brushes.White, "Resume"))
-        pausebuttons.Add(New Button(New Rectangle(Main.Width / 2 - 50, 100, 150, 40), Brushes.White, "Load/Save"))
-        pausebuttons.Add(New Button(New Rectangle(Main.Width / 2 - 50, 150, 150, 40), Brushes.White, "Back to Menu"))
+        pausebuttons.Add(New Button(New Rectangle(Main.Width / 2 - 50, 100, 150, 40), Brushes.White, "Load Latest"))
+        pausebuttons.Add(New Button(New Rectangle(Main.Width / 2 - 50, 150, 150, 40), Brushes.White, "Save"))
+        pausebuttons.Add(New Button(New Rectangle(Main.Width / 2 - 50, 200, 150, 40), Brushes.White, "Back to Menu"))
     End Sub
     Public Sub drawGame(ByVal g As Graphics, ByVal start As Point, ByVal index As Integer, ByVal tileSize As Integer)
 
@@ -110,6 +112,15 @@
                 End If
             ElseIf helper.ButtonHovered(e.Location, pausebuttons(1).rect) Then
                 pausebuttons(1).color = Brushes.DarkGray
+                If mouseClicked = True Then
+                    Main.sceneManager.setGame()
+                    ls.Load()
+                End If
+            ElseIf helper.ButtonHovered(e.Location, pausebuttons(2).rect) Then
+                pausebuttons(2).color = Brushes.DarkGray
+                If mouseClicked = True Then
+                    ls.Save()
+                End If
             ElseIf helper.ButtonHovered(e.Location, pausebuttons(2).rect) Then
                 pausebuttons(2).color = Brushes.DarkGray
                 If mouseClicked = True Then
@@ -119,6 +130,7 @@
                 pausebuttons(0).color = Brushes.White
                 pausebuttons(1).color = Brushes.White
                 pausebuttons(2).color = Brushes.White
+                pausebuttons(3).color = Brushes.White
             End If
         End If
 
