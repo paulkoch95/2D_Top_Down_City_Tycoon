@@ -15,7 +15,7 @@ Public Class Main
     Public UI As New IngameUI
     Public selectedIndex As Integer
     Public rand As New System.Random
-    Public usedCoffees As Integer = 10
+    Public usedCoffees As Integer = 16
 
 
     Public notes As New List(Of Notification)
@@ -69,6 +69,7 @@ Public Class Main
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'UI.setup()
+        Me.Text = "2D City Top Down Game"
         traffic.AddCar(100, 100, 23, 23)
         economy.init()
         widthX = 31
@@ -463,7 +464,7 @@ Public Class Main
                 sceneManager.setGame()
             Case Keys.Escape
                 sceneManager.setPauseMenue()
-                Me.Text = "Puase"
+                'Me.Text = "Puase"
         End Select
 
         UI.Control(e)
@@ -502,7 +503,7 @@ Public Class Main
                     economy.BuildIndustry(New Point(xx, yy))
                 End If
             Case 4
-                Me.Text = "Checking!"
+                'Me.Text = "Checking!"
                 economy.checkForBuildings(New Point(xx, yy))
             Case 5
                 If map(xx, yy) = CByte(Blocks.Grass) And economy.money >= economy.cost_electricwire Then
@@ -551,7 +552,7 @@ Public Class Main
         If xx < 1 Or yy < 1 Or yy > 498 Or xx > 498 Then
             Exit Sub
         End If
-        Me.Text = xx.ToString
+        'Me.Text = xx.ToString
         economy.regainMoney(economy.ByteToAmount(GetFromIndex(xx, yy)), GetFromIndex(xx, yy))
         map(xx, yy) = CByte(Blocks.Grass)
 
@@ -630,7 +631,6 @@ Public Class Main
         End If
         If map(xx - 1, yy) = Blocks.RailHorizontal And map(xx + 1, yy) = Blocks.RailHorizontal And map(xx, yy - 1) = Blocks.RailVertical And map(xx, yy + 1) = Blocks.RailVertical Then
             map(xx, yy) = CByte(Blocks.RailRailIntersection)
-            Me.Text = "CheckRails"
         End If
     End Sub
     Public Sub CheckWires(ByVal xx As Integer, ByVal yy As Integer)

@@ -60,7 +60,6 @@
 
                     If helper.ButtonHovered(e.Location, New Rectangle(btn.position, New Size(tilesize, tilesize))) Then
                         updateHighlighter(e.Location)
-                        Main.Text = Main.ByteToString(btn.id)
                         Main.BuildBlock(buildPos.X, buildPos.Y, btn.id)
                         'If Windows.Forms.MouseButtons.Middle = True Then 'lazy as fuck....using useless object instantiation from other another class...bad style...but hey...who cares?
                         '    MsgBox(Main.ByteToString(btn.id))
@@ -81,7 +80,7 @@
                         renderUpdateContent()
                 End Select
             Case False
-                Main.Text = "exiting"
+                'Main.Text = "exiting"
                 Exit Sub
         End Select
     End Sub

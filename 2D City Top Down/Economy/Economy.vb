@@ -15,6 +15,10 @@ Public Class Economy
     Public industry As New List(Of Industry)
 
     Public Sub init()
+        money = 25000
+        population = 0
+        houses = New List(Of House)
+        industry = New List(Of Industry)
         Dim d As New House
         d.inhabitants = 0
         houses.Add(d)
@@ -51,7 +55,6 @@ Public Class Economy
         houses.Add(tempHouse)
         population += tempHouse.inhabitants
         money -= tempHouse.price
-        Main.Text = tempHouse.pos.ToString
     End Sub
     Public Sub BuildIndustry(ByVal position As Point)
         Dim tempInd As New Industry()

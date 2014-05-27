@@ -86,6 +86,7 @@
                 mainbuttons(0).color = Brushes.DarkGray
                 If mouseClicked = True Then
                     Main.sceneManager.setGame()
+                    ls.newGame()
                 End If
             ElseIf helper.ButtonHovered(e.Location, mainbuttons(1).rect) Then
                 mainbuttons(1).color = Brushes.DarkGray
@@ -121,8 +122,8 @@
                 If mouseClicked = True Then
                     ls.Save()
                 End If
-            ElseIf helper.ButtonHovered(e.Location, pausebuttons(2).rect) Then
-                pausebuttons(2).color = Brushes.DarkGray
+            ElseIf helper.ButtonHovered(e.Location, pausebuttons(3).rect) Then
+                pausebuttons(3).color = Brushes.DarkGray
                 If mouseClicked = True Then
                     Main.sceneManager.setMainMenue()
                 End If
@@ -135,7 +136,7 @@
         End If
 
 
-        Main.Text = mouseClicked.ToString
+        'Main.Text = mouseClicked.ToString
         mouseClicked = False
     End Sub
     Public Sub Control(ByVal e As System.Windows.Forms.KeyEventArgs)
