@@ -16,7 +16,7 @@ Public Class Main
     Public selectedIndex As Integer
     Public rand As New System.Random
     Public usedCoffees As Integer = 16
-
+    Public a As New WireCore
 
     Public notes As New List(Of Notification)
 
@@ -77,7 +77,8 @@ Public Class Main
         setup()
         'readimage()
         Me.DoubleBuffered = True
-        sceneManager.setMainMenue()
+        sceneManager.setIntro()
+        'sceneManager.setMainMenue()
         UI.setup()
         UI.debugCore.points.Add(New Point(0, 80))
         UI.debugCore.points.Add(New Point(0, 80))
@@ -87,7 +88,12 @@ Public Class Main
     Public Sub render(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
         'e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.HighSpeed
         UI.gr = e.Graphics
-        If sceneManager.mainMenue = True Then
+        If sceneManager.introScreen = True Then
+            UI.drawIntro()
+        ElseIf sceneManager.creditsScreen Then
+            UI.drawCredits()
+        ElseIf sceneManager.mainMenue = True Then
+            sceneManager.introScreen = False
             UI.drawMainMenue()
         ElseIf sceneManager.game = True Then
 
@@ -247,15 +253,15 @@ Public Class Main
         'evaluateCars()
         Me.Invalidate()
         'traffic.TrafficFlow()
+
     End Sub
     Private Sub EconomyEvaluation_Tick(sender As Object, e As EventArgs) Handles EconomyEvaluation.Tick
-        If sceneManager.pauseMenue = False And sceneManager.mainMenue = False Then
+        If sceneManager.pauseMenue = False And sceneManager.mainMenue = False And sceneManager.introScreen = False Then
             economy.evaluate()
             yearCylce.evaluate()
             UI.debugCore.evaluatePopulationGraph()
-            
         End If
-        
+
         'Me.Text = "Year: " + yearCylce.year.ToString + " |Day: " + yearCylce.day.ToString
     End Sub
     Public Function MousePointToMapPoint(ByVal mousePoint As Point) As Point
@@ -454,7 +460,8 @@ Public Class Main
                 Case Keys.L
                     Dim ls As New LoadSaveManager
                     ls.Load()
-
+                Case Keys.D
+                    sceneManager.setIntro()
             End Select
         End If
         Select Case e.KeyCode
@@ -486,6 +493,8 @@ Public Class Main
 
                 End If
                 CheckStreets(xx, yy)
+
+
             Case 1
                 If map(xx, yy) = CByte(Blocks.Grass) And economy.money >= economy.cost_railway Then
                     map(xx, yy) = CByte(Blocks.RailHorizontal)

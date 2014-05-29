@@ -91,6 +91,7 @@
     <Compile Include="Economy\House.vb" />
     <Compile Include="Economy\Industry.vb" />
     <Compile Include="GameTools\UpgradeTool.vb" />
+    <Compile Include="GameTools\WireCore.vb" />
     <Compile Include="Main.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -204,6 +205,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\editselection.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\splash_firm_with original gear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\splash_firm.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
