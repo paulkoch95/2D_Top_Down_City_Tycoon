@@ -1,14 +1,15 @@
 ============
 |TODO Liste|
 ============
--Improve Minimap Visualization (Bigger, Better, More Colors etc.)
--Improve Road Building Tool (Like Sim City, where you place and then drag the road to a specific point (Anno 1404, Sim City etc.))
--Add Police, Fire, Ambulance Station which affect the happiness
--Add happiness
--Improve Economy (Costs per year for roads, houses, industry)
--Add Traffic, Trains, Ships
--Add Water and harbour
--Add Small Notifaction thingies when you click on ahouse which shows you the Ihabitants, Costs and happines
--Improve and add Gameloop
--Add a year System (for example every 10 seconds a day, 360days = year)
--Add more Coffee! (Important)
+☑Improve Minimap Visualization (Bigger, Better, More Colors etc.)
+☑Improve Road Building Tool (Like Sim City, where you place and then drag the road to a specific point (Anno 1404, Sim City etc.))
+☐Add Police, Fire, Ambulance Station which affect the happiness
+☐Add happiness
+☑Improve Economy (Costs per year for roads, houses, industry)
+☐Add Traffic, Trains, Ships
+☐Add Water and harbour
+[canceled]Add Small Notifaction thingies when you click on ahouse which shows you the Ihabitants, Costs and happines
+☐Improve and add Gameloop
+☑Add a year System (for example every 10 seconds a day, 360days = year)
+☑Add more Coffee! (Important)
+☐Add a List of available Save Files!

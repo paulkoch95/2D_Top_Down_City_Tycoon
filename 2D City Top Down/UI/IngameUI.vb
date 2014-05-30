@@ -15,7 +15,7 @@ Public Class IngameUI
     Public mainbuttons As New List(Of Button)
     Public pausebuttons As New List(Of Button)
     Public mouseClicked As Boolean = False
-    Public drawDebug As Boolean = True
+    Public drawDebug As Boolean = False 'True
     Public debugCore As New DebugCore
     Public introBg As Double = 0
     Public introVis As Double = 255.0
@@ -181,12 +181,16 @@ Public Class IngameUI
                 pausebuttons(1).color = Brushes.DarkGray
                 If mouseClicked = True Then
                     Main.sceneManager.setGame()
-                    ls.Load()
+                    Dim savename As String
+                    savename = InputBox("Geben sie den Namen des zu ladenden Spielstandes ein", "Laden", "save_1")
+                    ls.Load(savename)
                 End If
             ElseIf helper.ButtonHovered(e.Location, pausebuttons(2).rect) Then
                 pausebuttons(2).color = Brushes.DarkGray
                 If mouseClicked = True Then
-                    ls.Save()
+                    Dim savename As String
+                    savename = InputBox("Geben sie einen Namen für den Spielstand ein", "Speichern", "save_1")
+                    ls.Save(savename)
                 End If
             ElseIf helper.ButtonHovered(e.Location, pausebuttons(3).rect) Then
                 pausebuttons(3).color = Brushes.DarkGray

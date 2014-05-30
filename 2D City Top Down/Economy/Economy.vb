@@ -9,7 +9,7 @@ Public Class Economy
     Public cost_industry As Integer = 750
     Public cost_electricwire As Integer = 100
     Public tax As Integer = 15
-    Public industry_tax As Integer = 80
+    Public industry_tax As Integer = 30
 
     Public houses As New List(Of House)
     Public industry As New List(Of Industry)

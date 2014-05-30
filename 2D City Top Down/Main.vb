@@ -453,13 +453,6 @@ Public Class Main
                         xOffset += 1
                     End If
                     'readimage()
-                Case Keys.S
-                    Dim ls As New LoadSaveManager
-                    ls.Save()
-                    '.WriteCsv(map, My.Application.Info.DirectoryPath)
-                Case Keys.L
-                    Dim ls As New LoadSaveManager
-                    ls.Load()
                 Case Keys.D
                     sceneManager.setIntro()
             End Select
@@ -507,7 +500,7 @@ Public Class Main
                     economy.BuildHouse(New Point(xx, yy))
                 End If
             Case 3
-                If map(xx, yy) = CByte(Blocks.Grass) And economy.money >= economy.cost_industry And checkAdditionalStreetForHouse(xx, yy) And checkAdditionalRailForIndustry(xx, yy) Then
+                If map(xx, yy) = CByte(Blocks.Grass) And economy.money >= economy.cost_industry And checkAdditionalStreetForHouse(xx, yy) And checkAdditionalRailForIndustry(xx, yy) And checkElectricForIndustry(xx, yy) Then
                     map(xx, yy) = CByte(Blocks.Industry)
                     economy.BuildIndustry(New Point(xx, yy))
                 End If
@@ -678,6 +671,21 @@ Public Class Main
             Return True
         End If
         If map(xx + 1, yy) >= 16 And map(xx + 1, yy) <= 20 Then
+            Return True
+        End If
+        Return False
+    End Function
+    Public Function checkElectricForIndustry(ByVal xx As Integer, ByVal yy As Integer) As Boolean
+        If map(xx, yy - 1) >= 30 And map(xx, yy - 1) <= 31 Then
+            Return True
+        End If
+        If map(xx, yy + 1) >= 30 And map(xx, yy + 1) <= 31 Then
+            Return True
+        End If
+        If map(xx - 1, yy) >= 30 And map(xx - 1, yy) <= 31 Then
+            Return True
+        End If
+        If map(xx + 1, yy) >= 30 And map(xx + 1, yy) <= 31 Then
             Return True
         End If
         Return False

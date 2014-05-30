@@ -2,27 +2,27 @@
 Imports System.Runtime.Serialization.Formatters.Binary
 
 Public Class LoadSaveManager
-    Public Sub Save()
+    Public Sub Save(ByVal name As String)
         Dim savedMap(500, 500) As Byte
-        Dim Economy() As Integer = {Main.economy.money, Main.economy.population, Main.yearCylce.day, Main.yearCylce.year}
+        Dim Economy() As Integer = {Main.economy.money, Main.economy.population, Main.yearCylce.day, Main.yearCylce.year, Main.xOffset, Main.yOffset}
         For i As Integer = 0 To savedMap.GetUpperBound(0)
             For y As Integer = 0 To savedMap.GetUpperBound(1)
                 savedMap(i, y) = Main.map(i, y)
             Next
         Next
         Dim bf As New BinaryFormatter()
-        Dim fs As New FileStream("save_1.array", FileMode.Create)
+        Dim fs As New FileStream(name + ".array", FileMode.Create)
         bf.Serialize(fs, savedMap)
         fs.Close()
 
-        Dim fs2 As New FileStream("save_1.eco", FileMode.Create)
+        Dim fs2 As New FileStream(name + ".additional", FileMode.Create)
         bf.Serialize(fs2, Economy)
         fs2.Close()
     End Sub
-    Public Sub Load()
-        Dim fs As New FileStream("save_1.array", FileMode.Open)
-        Dim fs2 As New FileStream("save_1.eco", FileMode.Open)
-        
+    Public Sub Load(ByVal name As String)
+        Dim fs As New FileStream(name + ".array", FileMode.Open)
+        Dim fs2 As New FileStream(name + ".additional", FileMode.Open)
+
         Dim bf As New BinaryFormatter()
         Dim loadedMap(,) As Byte = DirectCast(bf.Deserialize(fs), Byte(,))
         fs.Close()
@@ -32,6 +32,8 @@ Public Class LoadSaveManager
         Main.economy.population = loadedEconomy(1)
         Main.yearCylce.day = loadedEconomy(2)
         Main.yearCylce.year = loadedEconomy(3)
+        Main.xOffset = loadedEconomy(4)
+        Main.yOffset = loadedEconomy(5)
         Main.yearCylce.yearString = "Loading Date"
         For i As Integer = 0 To loadedMap.GetUpperBound(0)
             For y As Integer = 0 To loadedMap.GetUpperBound(1)
