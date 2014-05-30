@@ -9,6 +9,7 @@ Public Class IngameUI
     Public pop_bg As Image = My.Resources.population_
     Public selection_bg As Image = My.Resources.tilebar
     Public selection_tile As Image = My.Resources.tileselection
+    Public banner As Image = My.Resources.banner
     Public selectionWidth As Integer = 64
     Public helper As New UIHelper
     Public mainMenueSelectedIndex As Integer = 0
@@ -73,6 +74,8 @@ Public Class IngameUI
         With gr
             .FillRectangle(Brushes.White, New Rectangle(0, 0, Main.Width, Main.Height))
             'Credits title
+            .DrawImageUnscaledAndClipped(banner, New Rectangle(New Point(CInt(Main.Width / 2 - 200), CInt(Main.Height / 2 - 110 + CInt(creditsYaw))), New Size(400, 100)))
+
             .DrawString("Credits", New System.Drawing.Font("Segoe UI Light", 24), Brushes.Black, New Point(CInt(Main.Width / 2 - 50), CInt(Main.Height / 2 + CInt(creditsYaw))))
             'Starting with Paul
             .DrawString("Lead Game Programmer: ", New System.Drawing.Font("Segoe UI Light", 12, FontStyle.Bold), Brushes.Black, New Point(CInt(Main.Width / 2 - 80), CInt(Main.Height / 2 + 120 + CInt(creditsYaw))))
@@ -89,13 +92,18 @@ Public Class IngameUI
             .DrawString("Lead Art / UI Art: ", New System.Drawing.Font("Segoe UI Light", 12, FontStyle.Bold), Brushes.Black, New Point(CInt(Main.Width / 2 - 80), CInt(Main.Height / 2 + 480 + CInt(creditsYaw))))
             .DrawString("Jannis Becker", New System.Drawing.Font("Segoe UI Light", 12), Brushes.Black, New Point(CInt(Main.Width / 2 - 60), CInt(Main.Height / 2 + 505 + CInt(creditsYaw))))
 
-            .DrawString("Tools: ", New System.Drawing.Font("Segoe UI Light", 12, FontStyle.Bold), Brushes.Black, New Point(CInt(Main.Width / 2 - 80), CInt(Main.Height / 2 + 600 + CInt(creditsYaw))))
-            .DrawString("Visual Studio and GDI+", New System.Drawing.Font("Segoe UI Light", 12), Brushes.Black, New Point(CInt(Main.Width / 2 - 60), CInt(Main.Height / 2 + 625 + CInt(creditsYaw))))
-            .DrawString("Paint.NET", New System.Drawing.Font("Segoe UI Light", 12), Brushes.Black, New Point(CInt(Main.Width / 2 - 60), CInt(Main.Height / 2 + 650 + CInt(creditsYaw))))
-            .DrawString("GIMP", New System.Drawing.Font("Segoe UI Light", 12), Brushes.Black, New Point(CInt(Main.Width / 2 - 60), CInt(Main.Height / 2 + 675 + CInt(creditsYaw))))
+            .DrawString("Gameplay: ", New System.Drawing.Font("Segoe UI Light", 12, FontStyle.Bold), Brushes.Black, New Point(CInt(Main.Width / 2 - 80), CInt(Main.Height / 2 + 600 + CInt(creditsYaw))))
+            .DrawString("Paul Koch", New System.Drawing.Font("Segoe UI Light", 12), Brushes.Black, New Point(CInt(Main.Width / 2 - 60), CInt(Main.Height / 2 + 625 + CInt(creditsYaw))))
+            .DrawString("Jannis Becker", New System.Drawing.Font("Segoe UI Light", 12), Brushes.Black, New Point(CInt(Main.Width / 2 - 60), CInt(Main.Height / 2 + 650 + CInt(creditsYaw))))
 
-            .DrawImageUnscaledAndClipped(logo, New Rectangle(New Point(CInt(Main.Width / 2 - 80), CInt(Main.Height / 2 + 760 + CInt(creditsYaw))), New Size(400, 100)))
-            .DrawString("No Cup of Coffee was hurt!", New System.Drawing.Font("Segoe UI Light", 12, FontStyle.Bold), Brushes.Black, New Point(CInt(Main.Width / 2 - 80), CInt(Main.Height / 2 + 1060 + CInt(creditsYaw))))
+
+            .DrawString("Tools: ", New System.Drawing.Font("Segoe UI Light", 12, FontStyle.Bold), Brushes.Black, New Point(CInt(Main.Width / 2 - 80), CInt(Main.Height / 2 + 720 + CInt(creditsYaw))))
+            .DrawString("Visual Studio and GDI+", New System.Drawing.Font("Segoe UI Light", 12), Brushes.Black, New Point(CInt(Main.Width / 2 - 60), CInt(Main.Height / 2 + 745 + CInt(creditsYaw))))
+            .DrawString("Paint.NET", New System.Drawing.Font("Segoe UI Light", 12), Brushes.Black, New Point(CInt(Main.Width / 2 - 60), CInt(Main.Height / 2 + 770 + CInt(creditsYaw))))
+            .DrawString("GIMP", New System.Drawing.Font("Segoe UI Light", 12), Brushes.Black, New Point(CInt(Main.Width / 2 - 60), CInt(Main.Height / 2 + 795 + CInt(creditsYaw))))
+
+            .DrawImageUnscaledAndClipped(logo, New Rectangle(New Point(CInt(Main.Width / 2 - 80), CInt(Main.Height / 2 + 860 + CInt(creditsYaw))), New Size(400, 100)))
+            .DrawString("No Cups of coffee were harmed during the making of this game!", New System.Drawing.Font("Segoe UI Light", 12, FontStyle.Bold), Brushes.Black, New Point(CInt(Main.Width / 2 - 80), CInt(Main.Height / 2 + 1160 + CInt(creditsYaw))))
 
         End With
     End Sub
@@ -188,6 +196,7 @@ Public Class IngameUI
             ElseIf helper.ButtonHovered(e.Location, pausebuttons(2).rect) Then
                 pausebuttons(2).color = Brushes.DarkGray
                 If mouseClicked = True Then
+                    Main.sceneManager.setGame()
                     Dim savename As String
                     savename = InputBox("Geben sie einen Namen für den Spielstand ein", "Speichern", "save_1")
                     ls.Save(savename)

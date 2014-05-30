@@ -4,6 +4,7 @@ Imports System.Runtime.Serialization.Formatters.Binary
 Public Class LoadSaveManager
     Public Sub Save(ByVal name As String)
         Dim savedMap(500, 500) As Byte
+
         Dim Economy() As Integer = {Main.economy.money, Main.economy.population, Main.yearCylce.day, Main.yearCylce.year, Main.xOffset, Main.yOffset}
         For i As Integer = 0 To savedMap.GetUpperBound(0)
             For y As Integer = 0 To savedMap.GetUpperBound(1)

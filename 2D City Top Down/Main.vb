@@ -18,7 +18,7 @@ Public Class Main
     Public usedCoffees As Integer = 16
     Public a As New WireCore
 
-    Public notes As New List(Of Notification)
+    Public test As New NotificationSystem
 
     Public mousePos As New Point
     Public economy As Economy = New Economy
@@ -88,6 +88,8 @@ Public Class Main
     Public Sub render(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
         'e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.HighSpeed
         UI.gr = e.Graphics
+        test.graphics = e.Graphics
+
         If sceneManager.introScreen = True Then
             UI.drawIntro()
         ElseIf sceneManager.creditsScreen Then
@@ -246,6 +248,7 @@ Public Class Main
         If UI.drawDebug Then
             UI.debugCore.renderDebug(e.Graphics)
         End If
+        test.drawNotes()
         'e.Graphics.FillRectangles(New SolidBrush(Color.FromArgb(100, 0, 255, 0)), circHigh.fillCirc(6, New Point(mousePos.X * tileSize, mousePos.Y * tileSize)).ToArray)
     End Sub
 
@@ -455,6 +458,10 @@ Public Class Main
                     'readimage()
                 Case Keys.D
                     sceneManager.setIntro()
+                Case Keys.R
+                    test.addNote("Hey, wazz up")
+                Case Keys.T
+                    test.removeNote()
             End Select
         End If
         Select Case e.KeyCode
