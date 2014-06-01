@@ -90,6 +90,8 @@
     <Compile Include="Economy\Economy.vb" />
     <Compile Include="Economy\House.vb" />
     <Compile Include="Economy\Industry.vb" />
+    <Compile Include="Gameplay\Campaign.vb" />
+    <Compile Include="Gameplay\GameplayEvent.vb" />
     <Compile Include="GameTools\UpgradeTool.vb" />
     <Compile Include="GameTools\WireCore.vb" />
     <Compile Include="Main.vb">
@@ -122,8 +124,8 @@
     <Compile Include="Traffic.vb" />
     <Compile Include="UI\GraphicalButton.vb" />
     <Compile Include="UI\menu_bg.vb" />
-    <Compile Include="UI\NotificationSystem\Notification.vb" />
-    <Compile Include="UI\NotificationSystem\NotificationSystem.vb" />
+    <Compile Include="Gameplay\NotificationSystem\Notification.vb" />
+    <Compile Include="Gameplay\NotificationSystem\NotificationSystem.vb" />
     <Compile Include="UI\SceneManagement.vb" />
     <Compile Include="UI\UIHelper.vb" />
     <Compile Include="YearCycle.vb" />

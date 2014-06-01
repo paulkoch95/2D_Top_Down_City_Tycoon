@@ -17,8 +17,7 @@ Public Class Main
     Public rand As New System.Random
     Public usedCoffees As Integer = 16
     Public a As New WireCore
-
-    Public test As New NotificationSystem
+    Public campaignCore As New Campaign
 
     Public mousePos As New Point
     Public economy As Economy = New Economy
@@ -68,17 +67,15 @@ Public Class Main
     End Enum
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'UI.setup()
         Me.Text = "2D City Top Down Game"
         traffic.AddCar(100, 100, 23, 23)
         economy.init()
         widthX = 31
         heightY = 18
         setup()
-        'readimage()
         Me.DoubleBuffered = True
         sceneManager.setIntro()
-        'sceneManager.setMainMenue()
+        campaignCore.setup()
         UI.setup()
         UI.debugCore.points.Add(New Point(0, 80))
         UI.debugCore.points.Add(New Point(0, 80))
@@ -88,8 +85,7 @@ Public Class Main
     Public Sub render(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
         'e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.HighSpeed
         UI.gr = e.Graphics
-        test.graphics = e.Graphics
-
+        campaignCore.ns.graphics = e.Graphics
         If sceneManager.introScreen = True Then
             UI.drawIntro()
         ElseIf sceneManager.creditsScreen Then
@@ -97,6 +93,8 @@ Public Class Main
         ElseIf sceneManager.mainMenue = True Then
             sceneManager.introScreen = False
             UI.drawMainMenue()
+        ElseIf sceneManager.loadScreen Then
+            UI.drawLoadScreen()
         ElseIf sceneManager.game = True Then
 
             For x As Integer = xOffset To xOffset + widthX - 1
@@ -235,6 +233,7 @@ Public Class Main
 
             minMap.DrawMiniMap(e.Graphics, map)
             UI.drawGame(e.Graphics, New Point(10, 640), selectedIndex, tileSize)
+            campaignCore.ns.drawNotes()
             upgrader.drawToUI(e.Graphics)
             'For Each n In notes
             'n.draw(e.Graphics)
@@ -243,12 +242,13 @@ Public Class Main
             If sceneManager.pauseMenue = True Then
                 UI.drawPauseMenue()
             End If
+
         End If
 
         If UI.drawDebug Then
             UI.debugCore.renderDebug(e.Graphics)
         End If
-        test.drawNotes()
+
         'e.Graphics.FillRectangles(New SolidBrush(Color.FromArgb(100, 0, 255, 0)), circHigh.fillCirc(6, New Point(mousePos.X * tileSize, mousePos.Y * tileSize)).ToArray)
     End Sub
 
@@ -256,6 +256,7 @@ Public Class Main
         'evaluateCars()
         Me.Invalidate()
         'traffic.TrafficFlow()
+        campaignCore.evaluate()
 
     End Sub
     Private Sub EconomyEvaluation_Tick(sender As Object, e As EventArgs) Handles EconomyEvaluation.Tick
@@ -264,7 +265,6 @@ Public Class Main
             yearCylce.evaluate()
             UI.debugCore.evaluatePopulationGraph()
         End If
-
         'Me.Text = "Year: " + yearCylce.year.ToString + " |Day: " + yearCylce.day.ToString
     End Sub
     Public Function MousePointToMapPoint(ByVal mousePoint As Point) As Point
@@ -374,7 +374,7 @@ Public Class Main
         If sceneManager.pauseMenue = False And sceneManager.mainMenue = False Then
             If e.Button = Windows.Forms.MouseButtons.Left Then
                 BuildBlock(e.X, e.Y)
-                
+
             ElseIf e.Button = Windows.Forms.MouseButtons.Right Then
                 RemoveBlock(e.X, e.Y)
             End If
@@ -398,13 +398,13 @@ Public Class Main
             'Me.Text = Convert.ToString(MousePointToMapPoint(New Point(e.X, e.Y)))
             'InterpolateBetweenTwoPoints(New Point(10, 10), mousePos)
         End If
-        If sceneManager.mainMenue = True Or sceneManager.pauseMenue = True Then
+        If sceneManager.mainMenue = True Or sceneManager.pauseMenue = True Or sceneManager.loadScreen Then
             UI.Mouse(e)
         End If
         If sceneManager.pauseMenue = False And sceneManager.mainMenue = False Then
             If e.Button = Windows.Forms.MouseButtons.Left Then
                 BuildBlock(e.X, e.Y)
-                
+
             ElseIf e.Button = Windows.Forms.MouseButtons.Right Then
                 RemoveBlock(e.X, e.Y)
             End If
@@ -459,9 +459,10 @@ Public Class Main
                 Case Keys.D
                     sceneManager.setIntro()
                 Case Keys.R
-                    test.addNote("Hey, wazz up")
+                    campaignCore.ns.addNote("Note NO: " + campaignCore.ns.index.ToString)
                 Case Keys.T
-                    test.removeNote()
+                    'game.ns.removeNote(2)
+                    campaignCore.ns.removeNote()
             End Select
         End If
         Select Case e.KeyCode

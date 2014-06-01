@@ -1,5 +1,7 @@
 ﻿Option Strict On
 
+Imports System.IO
+
 Public Class IngameUI
     Public gr As Graphics
     Public tileMap As Bitmap = My.Resources.tilemap
@@ -15,6 +17,7 @@ Public Class IngameUI
     Public mainMenueSelectedIndex As Integer = 0
     Public mainbuttons As New List(Of Button)
     Public pausebuttons As New List(Of Button)
+    Public savesButtons As New List(Of Button)
     Public mouseClicked As Boolean = False
     Public drawDebug As Boolean = False 'True
     Public debugCore As New DebugCore
@@ -22,6 +25,7 @@ Public Class IngameUI
     Public introVis As Double = 255.0
     Public creditsYaw As Double = 0.0
     Public logo As Image = My.Resources.logo
+    Public progress As Integer
     Public ls As New LoadSaveManager
     Public Sub setup()
         mainbuttons.Add(New Button(New Rectangle(CInt(Main.Width / 2 - 50), 50, 150, 40), Brushes.White, "New Game"))
@@ -30,9 +34,15 @@ Public Class IngameUI
         mainbuttons.Add(New Button(New Rectangle(CInt(Main.Width / 2 - 50), 200, 150, 40), Brushes.White, "Exit"))
 
         pausebuttons.Add(New Button(New Rectangle(CInt(Main.Width / 2 - 50), 50, 150, 40), Brushes.White, "Resume"))
-        pausebuttons.Add(New Button(New Rectangle(CInt(Main.Width / 2 - 50), 100, 150, 40), Brushes.White, "Load Latest"))
+        pausebuttons.Add(New Button(New Rectangle(CInt(Main.Width / 2 - 50), 100, 150, 40), Brushes.White, "Load"))
         pausebuttons.Add(New Button(New Rectangle(CInt(Main.Width / 2 - 50), 150, 150, 40), Brushes.White, "Save"))
         pausebuttons.Add(New Button(New Rectangle(CInt(Main.Width / 2 - 50), 200, 150, 40), Brushes.White, "Back to Menu"))
+
+        Dim y As Integer = 50
+        For Each d As FileInfo In ls.getAllFiles
+            y += 55
+            savesButtons.Add(New Button(New Rectangle(CInt(Main.Width / 2 - 50), y, d.Name.Length * 12, 40), Brushes.White, d.Name))
+        Next
     End Sub
     Public Sub drawGame(ByVal g As Graphics, ByVal start As Point, ByVal index As Integer, ByVal tileSize As Integer)
         gr.Transform.Reset()
@@ -121,6 +131,7 @@ Public Class IngameUI
         With gr
             .FillRectangle(New SolidBrush(Color.FromArgb(255, CInt(introBg), CInt(introBg), CInt(introBg))), New Rectangle(0, 0, Main.Width, Main.Height))
             .DrawImageUnscaledAndClipped(logo, New Rectangle(New Point(CInt(Main.Width / 2 - 200), CInt(Main.Height / 2 - 50)), New Size(400, 100)))
+            'Not used Progressbar (Not used because theres not much to load).FillRectangle(Brushes.DarkGray, New Rectangle(CInt(Main.Width / 2 - 128), CInt(Main.Height / 2 + 42), 256, 8))
         End With
     End Sub
     Public Sub drawMainMenue()
@@ -131,6 +142,15 @@ Public Class IngameUI
             .DrawString("Main Menue", New System.Drawing.Font("Segoe UI Light", 24), Brushes.White, New Point(CInt(Main.Width / 2 - 50), 10))
             .DrawString("Developed by Paul Koch and all Github contributors! | Some images are mady by Jannis Becker | Version: " + Main.ProductVersion.ToString, New System.Drawing.Font("Segoe UI Light", 6), Brushes.Black, New Point(Main.Width - 400, 0))
             For Each b As Button In mainbuttons
+                b.draw(gr)
+            Next
+        End With
+    End Sub
+    Public Sub drawLoadScreen()
+        Dim y As Integer = 10
+        With gr
+            .DrawString("All available Saves", New System.Drawing.Font("Segoe UI Light", 24), Brushes.White, New Point(CInt(Main.Width / 2 - 50), 10))
+            For Each b As Button In savesButtons
                 b.draw(gr)
             Next
         End With
@@ -188,14 +208,16 @@ Public Class IngameUI
             ElseIf helper.ButtonHovered(e.Location, pausebuttons(1).rect) Then
                 pausebuttons(1).color = Brushes.DarkGray
                 If mouseClicked = True Then
-                    Main.sceneManager.setGame()
-                    Dim savename As String
-                    savename = InputBox("Geben sie den Namen des zu ladenden Spielstandes ein", "Laden", "save_1")
-                    ls.Load(savename)
+                    Main.sceneManager.setLoadScreen()
+                    'Main.sceneManager.setGame()
+                    'Dim savename As String
+                    'savename = InputBox("Geben sie den Namen des zu ladenden Spielstandes ein", "Laden", "save_1")
+                    'ls.Load(savename)
                 End If
             ElseIf helper.ButtonHovered(e.Location, pausebuttons(2).rect) Then
                 pausebuttons(2).color = Brushes.DarkGray
                 If mouseClicked = True Then
+
                     Main.sceneManager.setGame()
                     Dim savename As String
                     savename = InputBox("Geben sie einen Namen für den Spielstand ein", "Speichern", "save_1")
@@ -212,6 +234,21 @@ Public Class IngameUI
                 pausebuttons(2).color = Brushes.White
                 pausebuttons(3).color = Brushes.White
             End If
+        ElseIf Main.sceneManager.loadScreen = True Then
+            Main.Text = "inside it"
+            For Each i As Button In savesButtons
+                If helper.ButtonHovered(e.Location, i.rect) Then
+                    i.color = Brushes.Black
+                    If mouseClicked Then
+                        ls.Load(ls.getAllFiles.ElementAt(savesButtons.IndexOf(i)).Name.Split(CChar(".")).First)
+                        Main.sceneManager.setGame()
+                    End If
+
+                End If
+            Next
+            For Each i As Button In savesButtons
+                i.color = Brushes.White
+            Next
         End If
 
 

@@ -57,4 +57,16 @@ Public Class LoadSaveManager
         Main.yearCylce.year = 1980
         Main.yearCylce.yearString = "New Game"
     End Sub
+    Public Function getAllFiles() As List(Of FileInfo)
+        Dim DIRECTORY As String = My.Application.Info.DirectoryPath.ToString
+        Dim info As DirectoryInfo
+        info = New DirectoryInfo(DIRECTORY)
+        Dim data As New List(Of FileInfo)
+        Dim d As FileInfo
+        For Each d In info.GetFiles("*.array")
+            data.Add(d)
+        Next
+        Return data
+
+    End Function
 End Class

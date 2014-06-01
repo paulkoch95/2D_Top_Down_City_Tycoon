@@ -37,7 +37,7 @@ Public Class Economy
     End Sub
     Public Sub regainMoney(ByVal amount As Integer, ByVal index As Integer)
         Select Case index
-            Case 22
+            Case 21 To 24
                 houses.Remove(houses.Last)
                 money += houses.Last.price
                 population -= houses.Last.inhabitants
