@@ -28,6 +28,9 @@ Public Class IngameUI
     Public progress As Integer
     Public ls As New LoadSaveManager
     Public Sub setup()
+        mainbuttons = New List(Of Button)
+        pausebuttons = New List(Of Button)
+        savesButtons = New List(Of Button)
         mainbuttons.Add(New Button(New Rectangle(CInt(Main.Width / 2 - 50), 50, 150, 40), Brushes.White, "New Game"))
         mainbuttons.Add(New Button(New Rectangle(CInt(Main.Width / 2 - 50), 100, 150, 40), Brushes.White, "Options"))
         mainbuttons.Add(New Button(New Rectangle(CInt(Main.Width / 2 - 50), 150, 150, 40), Brushes.White, "Credits"))
@@ -41,7 +44,9 @@ Public Class IngameUI
         Dim y As Integer = 50
         For Each d As FileInfo In ls.getAllFiles
             y += 55
-            savesButtons.Add(New Button(New Rectangle(CInt(Main.Width / 2 - 50), y, d.Name.Length * 12, 40), Brushes.White, d.Name))
+            Dim tempTest As String = d.Name.Replace(".array", "") + " | Saved: " + d.LastAccessTime.ToShortDateString
+
+            savesButtons.Add(New Button(New Rectangle(CInt(Main.Width / 2 - 50), y, tempTest.Length * 12, 40), Brushes.White, tempTest))
         Next
     End Sub
     Public Sub drawGame(ByVal g As Graphics, ByVal start As Point, ByVal index As Integer, ByVal tileSize As Integer)
@@ -222,6 +227,7 @@ Public Class IngameUI
                     Dim savename As String
                     savename = InputBox("Geben sie einen Namen für den Spielstand ein", "Speichern", "save_1")
                     ls.Save(savename)
+                    setup()
                 End If
             ElseIf helper.ButtonHovered(e.Location, pausebuttons(3).rect) Then
                 pausebuttons(3).color = Brushes.DarkGray
@@ -238,9 +244,10 @@ Public Class IngameUI
             Main.Text = "inside it"
             For Each i As Button In savesButtons
                 If helper.ButtonHovered(e.Location, i.rect) Then
-                    i.color = Brushes.Black
+                    Main.Text = "Hovering: " + i.content
+                    i.color = Brushes.Blue
                     If mouseClicked Then
-                        ls.Load(ls.getAllFiles.ElementAt(savesButtons.IndexOf(i)).Name.Split(CChar(".")).First)
+                        ls.Load(ls.getAllFiles.ElementAt(savesButtons.IndexOf(i)).Name.Replace(".array", ""))
                         Main.sceneManager.setGame()
                     End If
 
