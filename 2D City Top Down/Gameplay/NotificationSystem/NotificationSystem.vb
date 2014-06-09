@@ -10,9 +10,7 @@
     End Sub
     Public Sub addNote(ByVal s As String)
         index += 1
-        Dim note As New Notification
-        note.pos = New Point(startPosition.X, startPosition.Y + (index * 35))
-        note.content = s
+        Dim note As New Notification(New Point(startPosition.X, startPosition.Y + (index * 60)), s, 2)
         notes.Add(note)
     End Sub
     Public Sub removeNote()
@@ -26,7 +24,7 @@
     End Sub
     Public Sub removeNote(ByVal index As Integer)
         For i As Integer = index To notes.Count - 1
-            notes(i).pos.Y -= 35
+            notes(i).pos.Y -= 60
         Next
     End Sub
 End Class

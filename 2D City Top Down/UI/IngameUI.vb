@@ -111,13 +111,16 @@ Public Class IngameUI
             .DrawString("Paul Koch", New System.Drawing.Font("Segoe UI Light", 12), Brushes.Black, New Point(CInt(Main.Width / 2 - 60), CInt(Main.Height / 2 + 625 + CInt(creditsYaw))))
             .DrawString("Jannis Becker", New System.Drawing.Font("Segoe UI Light", 12), Brushes.Black, New Point(CInt(Main.Width / 2 - 60), CInt(Main.Height / 2 + 650 + CInt(creditsYaw))))
 
+            .DrawString("Special Thanks: ", New System.Drawing.Font("Segoe UI Light", 12, FontStyle.Bold), Brushes.Black, New Point(CInt(Main.Width / 2 - 80), CInt(Main.Height / 2 + 720 + CInt(creditsYaw))))
+            .DrawString("Daniel Earwicker and palm3D, Stackoverflow", New System.Drawing.Font("Segoe UI Light", 12), Brushes.Black, New Point(CInt(Main.Width / 2 - 60), CInt(Main.Height / 2 + 745 + CInt(creditsYaw))))
+            .DrawString("(Used fill circle algorithm from them)", New System.Drawing.Font("Segoe UI Light", 12), Brushes.Black, New Point(CInt(Main.Width / 2 - 60), CInt(Main.Height / 2 + 770 + CInt(creditsYaw))))
 
-            .DrawString("Tools: ", New System.Drawing.Font("Segoe UI Light", 12, FontStyle.Bold), Brushes.Black, New Point(CInt(Main.Width / 2 - 80), CInt(Main.Height / 2 + 720 + CInt(creditsYaw))))
-            .DrawString("Visual Studio and GDI+", New System.Drawing.Font("Segoe UI Light", 12), Brushes.Black, New Point(CInt(Main.Width / 2 - 60), CInt(Main.Height / 2 + 745 + CInt(creditsYaw))))
-            .DrawString("Paint.NET", New System.Drawing.Font("Segoe UI Light", 12), Brushes.Black, New Point(CInt(Main.Width / 2 - 60), CInt(Main.Height / 2 + 770 + CInt(creditsYaw))))
-            .DrawString("GIMP", New System.Drawing.Font("Segoe UI Light", 12), Brushes.Black, New Point(CInt(Main.Width / 2 - 60), CInt(Main.Height / 2 + 795 + CInt(creditsYaw))))
+            .DrawString("Tools: ", New System.Drawing.Font("Segoe UI Light", 12, FontStyle.Bold), Brushes.Black, New Point(CInt(Main.Width / 2 - 80), CInt(Main.Height / 2 + 840 + CInt(creditsYaw))))
+            .DrawString("Visual Studio and GDI+", New System.Drawing.Font("Segoe UI Light", 12), Brushes.Black, New Point(CInt(Main.Width / 2 - 60), CInt(Main.Height / 2 + 865 + CInt(creditsYaw))))
+            .DrawString("Paint.NET", New System.Drawing.Font("Segoe UI Light", 12), Brushes.Black, New Point(CInt(Main.Width / 2 - 60), CInt(Main.Height / 2 + 890 + CInt(creditsYaw))))
+            .DrawString("GIMP", New System.Drawing.Font("Segoe UI Light", 12), Brushes.Black, New Point(CInt(Main.Width / 2 - 60), CInt(Main.Height / 2 + 915 + CInt(creditsYaw))))
 
-            .DrawImageUnscaledAndClipped(logo, New Rectangle(New Point(CInt(Main.Width / 2 - 80), CInt(Main.Height / 2 + 860 + CInt(creditsYaw))), New Size(400, 100)))
+            .DrawImageUnscaledAndClipped(logo, New Rectangle(New Point(CInt(Main.Width / 2 - 80), CInt(Main.Height / 2 + 1030 + CInt(creditsYaw))), New Size(400, 100)))
             .DrawString("No Cups of coffee were harmed during the making of this game!", New System.Drawing.Font("Segoe UI Light", 12, FontStyle.Bold), Brushes.Black, New Point(CInt(Main.Width / 2 - 80), CInt(Main.Height / 2 + 1160 + CInt(creditsYaw))))
 
         End With
@@ -225,9 +228,12 @@ Public Class IngameUI
 
                     Main.sceneManager.setGame()
                     Dim savename As String
-                    savename = InputBox("Geben sie einen Namen für den Spielstand ein", "Speichern", "save_1")
-                    ls.Save(savename)
-                    setup()
+                    savename = InputBox("Geben sie einen Namen für den Spielstand ein", "Speichern", "[Insert your name here]")
+                    If savename.Length > 0 Then
+                        ls.Save(savename)
+                        setup()
+                    End If
+                    
                 End If
             ElseIf helper.ButtonHovered(e.Location, pausebuttons(3).rect) Then
                 pausebuttons(3).color = Brushes.DarkGray

@@ -86,6 +86,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animation\Animation.vb" />
+    <Compile Include="Animation\AnimationHandler.vb" />
     <Compile Include="DebugTool\DebugCore.vb" />
     <Compile Include="Economy\Economy.vb" />
     <Compile Include="Economy\House.vb" />
@@ -223,6 +225,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\notification.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\anim_001.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\anim_002.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\anim_003.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\anim_004.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

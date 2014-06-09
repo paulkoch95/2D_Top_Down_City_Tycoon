@@ -18,6 +18,7 @@ Public Class Main
     Public usedCoffees As Integer = 16
     Public a As New WireCore
     Public campaignCore As New Campaign
+    Public animHandler As New AnimationHandler
 
     Public mousePos As New Point
     Public economy As Economy = New Economy
@@ -26,6 +27,7 @@ Public Class Main
     Public sceneManager As New SceneManagement
     Public circHigh As New CircleHighlighting
     Public upgrader As New UpgradeTool
+    Public graph As Graphics
 
 
     Public Enum Blocks
@@ -79,15 +81,18 @@ Public Class Main
         UI.setup()
         UI.debugCore.points.Add(New Point(0, 80))
         UI.debugCore.points.Add(New Point(0, 80))
+        animHandler.debug()
         'InterpolateBetweenTwoPoints(New Point(5, 5), New Point(2, 2))
         'circHigh.fillCirc()
     End Sub
     Public Sub render(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
         'e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.HighSpeed
+
         UI.gr = e.Graphics
         campaignCore.ns.graphics = e.Graphics
         If sceneManager.introScreen = True Then
             UI.drawIntro()
+
         ElseIf sceneManager.creditsScreen Then
             UI.drawCredits()
         ElseIf sceneManager.mainMenue = True Then
@@ -235,6 +240,7 @@ Public Class Main
             UI.drawGame(e.Graphics, New Point(10, 640), selectedIndex, tileSize)
             campaignCore.ns.drawNotes()
             upgrader.drawToUI(e.Graphics)
+            animHandler.drawAnimations(e.Graphics)
             'For Each n In notes
             'n.draw(e.Graphics)
             'n.evaluate()
@@ -249,6 +255,7 @@ Public Class Main
             UI.debugCore.renderDebug(e.Graphics)
         End If
 
+
         'e.Graphics.FillRectangles(New SolidBrush(Color.FromArgb(100, 0, 255, 0)), circHigh.fillCirc(6, New Point(mousePos.X * tileSize, mousePos.Y * tileSize)).ToArray)
     End Sub
 
@@ -257,7 +264,7 @@ Public Class Main
         Me.Invalidate()
         'traffic.TrafficFlow()
         campaignCore.evaluate()
-
+        animHandler.calcAnimations()
     End Sub
     Private Sub EconomyEvaluation_Tick(sender As Object, e As EventArgs) Handles EconomyEvaluation.Tick
         If sceneManager.pauseMenue = False And sceneManager.mainMenue = False And sceneManager.introScreen = False Then
@@ -494,7 +501,7 @@ Public Class Main
 
                 End If
                 CheckStreets(xx, yy)
-
+                animHandler.animations.Add(New Animation(New Point(xx * 32, yy * 32), My.Resources.anim_001, 4, 32, 1, 2))
 
             Case 1
                 If map(xx, yy) = CByte(Blocks.Grass) And economy.money >= economy.cost_railway Then
@@ -698,4 +705,6 @@ Public Class Main
         End If
         Return False
     End Function
+
+    
 End Class
