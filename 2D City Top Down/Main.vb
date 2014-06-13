@@ -502,7 +502,7 @@ Public Class Main
                 End If
                 CheckStreets(xx, yy)
                 animHandler.animations.Add(New Animation(New Point(xx * 32, yy * 32), My.Resources.anim_001, 4, 32, 1, 2))
-
+                'animHandler.animations.Add(New Animation(New Point(xx * 32, yy * 32), My.Resources.anim_005, 4, 32, 1, 4))
             Case 1
                 If map(xx, yy) = CByte(Blocks.Grass) And economy.money >= economy.cost_railway Then
                     map(xx, yy) = CByte(Blocks.RailHorizontal)
