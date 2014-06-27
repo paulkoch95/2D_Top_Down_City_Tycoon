@@ -27,6 +27,7 @@ Public Class IngameUI
     Public logo As Image = My.Resources.logo
     Public progress As Integer
     Public ls As New LoadSaveManager
+    Public timeWarp As New TimeWarp
     Public Sub setup()
         mainbuttons = New List(Of Button)
         pausebuttons = New List(Of Button)
@@ -50,7 +51,7 @@ Public Class IngameUI
         Next
     End Sub
     Public Sub drawGame(ByVal g As Graphics, ByVal start As Point, ByVal index As Integer, ByVal tileSize As Integer)
-        gr.Transform.Reset()
+        'gr.Transform.Reset()
         With gr
             .DrawImageUnscaledAndClipped(selection_bg, New Rectangle(0, start.Y - 80, 983, 175))
             .DrawImage(tileMap, start.X, start.Y + 22, New Rectangle(0, 3 * tileSize, 8 * tileSize, tileSize), GraphicsUnit.Pixel)
@@ -77,7 +78,7 @@ Public Class IngameUI
             .DrawString("Date", New System.Drawing.Font("Segoe UI Light", 8), Brushes.DarkGray, New Point(474, 12))
             .DrawString(Main.yearCylce.yearString, New System.Drawing.Font("Segoe UI Light", 12), Brushes.White, New Point(474, 22))
         End With
-
+        timeWarp.rederTimeWarpScreen(gr, New Point(10, 10))
     End Sub
     Public Sub drawCredits()
         Main.Invalidate()
@@ -176,6 +177,7 @@ Public Class IngameUI
     Public Sub Mouse(ByVal e As System.Windows.Forms.MouseEventArgs)
 
         'MsgBox(buttons.Count.ToString)
+        Main.Text = "moving"
         If Main.sceneManager.mainMenue = True Then 'Haupt Menü BUtton Hovering
             If helper.ButtonHovered(e.Location, mainbuttons.First.rect) Then
                 mainbuttons(0).color = Brushes.DarkGray
@@ -263,7 +265,7 @@ Public Class IngameUI
                 i.color = Brushes.White
             Next
         End If
-
+        
 
         'Main.Text = mouseClicked.ToString
         mouseClicked = False

@@ -378,6 +378,14 @@ Public Class Main
     End Sub
     Public Sub MouseClicking(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseClick
         'readimage()
+        If sceneManager.game Then
+            If UI.helper.ButtonHovered(e.Location, New Rectangle(424, 0, 152, 60)) = True Then
+                UI.timeWarp.performActionWhenClicked(e.Location)
+            ElseIf UI.timeWarp.enabled Then
+                UI.timeWarp.performActionWhenClicked(e.Location)
+                UI.timeWarp.enabled = True
+            End If
+        End If
         If sceneManager.pauseMenue = False And sceneManager.mainMenue = False Then
             If e.Button = Windows.Forms.MouseButtons.Left Then
                 BuildBlock(e.X, e.Y)
@@ -408,6 +416,7 @@ Public Class Main
         If sceneManager.mainMenue = True Or sceneManager.pauseMenue = True Or sceneManager.loadScreen Then
             UI.Mouse(e)
         End If
+        
         If sceneManager.pauseMenue = False And sceneManager.mainMenue = False Then
             If e.Button = Windows.Forms.MouseButtons.Left Then
                 BuildBlock(e.X, e.Y)
@@ -501,7 +510,7 @@ Public Class Main
 
                 End If
                 CheckStreets(xx, yy)
-                animHandler.animations.Add(New Animation(New Point(xx * 32, yy * 32), My.Resources.anim_001, 4, 32, 1, 2))
+                'animHandler.animations.Add(New Animation(New Point(xx * 32, yy * 32), My.Resources.anim_001, 4, 32, 1, 2))
                 'animHandler.animations.Add(New Animation(New Point(xx * 32, yy * 32), My.Resources.anim_005, 4, 32, 1, 4))
             Case 1
                 If map(xx, yy) = CByte(Blocks.Grass) And economy.money >= economy.cost_railway Then
