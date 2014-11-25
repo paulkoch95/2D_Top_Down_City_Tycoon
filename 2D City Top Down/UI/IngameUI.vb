@@ -177,7 +177,7 @@ Public Class IngameUI
     Public Sub Mouse(ByVal e As System.Windows.Forms.MouseEventArgs)
 
         'MsgBox(buttons.Count.ToString)
-        Main.Text = "moving"
+        'Main.Text = "moving"
         If Main.sceneManager.mainMenue = True Then 'Haupt Menü BUtton Hovering
             If helper.ButtonHovered(e.Location, mainbuttons.First.rect) Then
                 mainbuttons(0).color = Brushes.DarkGray
@@ -249,10 +249,10 @@ Public Class IngameUI
                 pausebuttons(3).color = Brushes.White
             End If
         ElseIf Main.sceneManager.loadScreen = True Then
-            Main.Text = "inside it"
+            'Main.Text = "inside it"
             For Each i As Button In savesButtons
                 If helper.ButtonHovered(e.Location, i.rect) Then
-                    Main.Text = "Hovering: " + i.content
+                    'Main.Text = "Hovering: " + i.content
                     i.color = Brushes.Blue
                     If mouseClicked Then
                         ls.Load(ls.getAllFiles.ElementAt(savesButtons.IndexOf(i)).Name.Replace(".array", ""))

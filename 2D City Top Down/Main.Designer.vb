@@ -47,7 +47,7 @@ Partial Class Main
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Main"
-        Me.Text = "Form1"
+        'Me.Text = "Form1"
         Me.ResumeLayout(False)
 
     End Sub
